@@ -1,0 +1,26 @@
+<!doctype html>
+<html lang="en">
+<head><meta charset="utf-8"/><meta name="viewport" content="width=device-width,initial-scale=1"/><title>Progress & Meter</title>
+<style>body{font-family:system-ui;margin:24px;line-height:1.35}.box{border:1px solid #ddd;border-radius:12px;padding:12px;max-width:640px}button{padding:10px 12px;border:1px solid #999;border-radius:10px;background:#f3f3f3;cursor:pointer}</style>
+</head>
+<body>
+  <a href="./../../index.html" data-testid="back">← back</a>
+  <h1 data-testid="page-title">Progress & Meter</h1>
+  <div data-testid="page-id" data-page-id="progress-meter"></div>
+
+  <div class="box">
+    <p><label>Progress: <progress data-testid="progress" id="prog" value="30" max="100"></progress> <span data-testid="progress-text" id="pt">30</span>%</label></p>
+    <p><label>Meter: <meter data-testid="meter" id="met" min="0" max="100" low="30" high="70" optimum="80" value="55"></meter> <span data-testid="meter-text" id="mt">55</span></label></p>
+    <button data-testid="btn-inc" type="button">Increase</button>
+    <button data-testid="btn-dec" type="button">Decrease</button>
+  </div>
+
+  <script>
+    const p=document.getElementById("prog"), m=document.getElementById("met"), pt=document.getElementById("pt"), mt=document.getElementById("mt");
+    const upd=()=>{pt.textContent=String(p.value);mt.textContent=String(m.value);};
+    document.querySelector("[data-testid='btn-inc']").addEventListener("click", ()=>{p.value=Math.min(100,p.value+10);m.value=Math.min(100,m.value+10);upd();});
+    document.querySelector("[data-testid='btn-dec']").addEventListener("click", ()=>{p.value=Math.max(0,p.value-10);m.value=Math.max(0,m.value-10);upd();});
+    upd();
+  </script>
+</body>
+</html>

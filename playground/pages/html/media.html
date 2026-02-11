@@ -1,0 +1,30 @@
+<!doctype html>
+<html lang="en">
+<head><meta charset="utf-8"/><meta name="viewport" content="width=device-width,initial-scale=1"/><title>Media</title>
+<style>body{font-family:system-ui;margin:24px;line-height:1.35}.row{display:flex;gap:16px;flex-wrap:wrap}.box{border:1px solid #ddd;border-radius:12px;padding:12px;min-width:260px}img{max-width:320px;height:auto;border-radius:10px}figure{margin:0}</style>
+</head>
+<body>
+  <a href="./../../index.html" data-testid="back">← back</a>
+  <h1 data-testid="page-title">Media</h1>
+  <div data-testid="page-id" data-page-id="media"></div>
+
+  <div class="row">
+    <div class="box">
+      <h2>Figure + caption</h2>
+      <figure data-testid="figure">
+        <img data-testid="figure-img" alt="Inline SVG via data URL" src="data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20width='320'%20height='180'%3E%3Crect%20width='100%25'%20height='100%25'%20fill='%23ddd'/%3E%3Ctext%20x='50%25'%20y='50%25'%20dominant-baseline='middle'%20text-anchor='middle'%20font-family='Arial'%20font-size='18'%20fill='%23333'%3EMedia%20Placeholder%3C/text%3E%3C/svg%3E" />
+        <figcaption data-testid="figcaption">Placeholder image</figcaption>
+      </figure>
+    </div>
+
+    <div class="box">
+      <h2>SVG inline</h2>
+      <svg data-testid="svg-inline" width="220" height="120" viewBox="0 0 220 120" role="img" aria-label="Inline SVG demo">
+        <rect x="5" y="5" width="210" height="110" rx="14" ry="14" fill="#eee" stroke="#999"></rect>
+        <circle cx="60" cy="60" r="22" fill="#bbb"></circle>
+        <text x="120" y="66" font-family="Arial" font-size="16" fill="#333">Inline SVG</text>
+      </svg>
+    </div>
+  </div>
+</body>
+</html>

@@ -1,0 +1,48 @@
+<!doctype html>
+<html lang="en">
+<head><meta charset="utf-8"/><meta name="viewport" content="width=device-width,initial-scale=1"/><title>A11y</title>
+<style>body{font-family:system-ui;margin:0;line-height:1.35}header,main{padding:24px}header{background:#f5f5f5}a.skip{position:absolute;left:-9999px;top:auto}a.skip:focus{left:24px;top:16px;background:#000;color:#fff;padding:8px 10px;border-radius:10px}button{padding:10px 12px;border:1px solid #999;border-radius:10px;background:#f3f3f3;cursor:pointer}nav a{margin-right:10px}.card{border:1px solid #ddd;border-radius:12px;padding:12px;margin:12px 0}</style>
+</head>
+<body>
+  <a class="skip" data-testid="skip-link" href="#main">Skip to content</a>
+
+  <header>
+    <a href="./../../index.html" data-testid="back">← back</a>
+    <h1 data-testid="page-title">Accessibility (a11y)</h1>
+    <div data-testid="page-id" data-page-id="a11y"></div>
+    <nav aria-label="Primary" data-testid="nav">
+      <a data-testid="nav-home" href="./../../index.html">Home</a>
+      <a data-testid="nav-forms" href="./forms-inputs.html">Forms</a>
+      <a data-testid="nav-tables" href="./tables.html">Tables</a>
+    </nav>
+  </header>
+
+  <main id="main" data-testid="main">
+    <div class="card">
+      <h2>ARIA toggle</h2>
+      <button data-testid="aria-toggle" id="tog" aria-expanded="false" aria-controls="panel">Toggle panel</button>
+      <div id="panel" data-testid="aria-panel" hidden>Panel content</div>
+    </div>
+
+    <div class="card">
+      <h2>Live region</h2>
+      <div data-testid="live" id="live" aria-live="polite">Waiting…</div>
+      <button data-testid="live-btn" id="liveBtn">Update live text</button>
+    </div>
+
+    <div class="card">
+      <h2>Tab order</h2>
+      <a data-testid="tab-1" href="#" onclick="return false">Focusable link</a>
+      <button data-testid="tab-2">Button</button>
+      <input data-testid="tab-3" placeholder="Input" />
+      <div data-testid="tab-4" tabindex="0" style="display:inline-block;padding:6px 10px;border:1px dashed #999;border-radius:10px">tabindex=0 div</div>
+    </div>
+  </main>
+
+  <script>
+    const tog=document.getElementById("tog"), panel=document.getElementById("panel"), live=document.getElementById("live");
+    tog.addEventListener("click", ()=>{const exp=tog.getAttribute("aria-expanded")==="true";tog.setAttribute("aria-expanded", String(!exp));panel.hidden=exp;});
+    document.getElementById("liveBtn").addEventListener("click", ()=>live.textContent="Updated at "+new Date().toLocaleTimeString());
+  </script>
+</body>
+</html>

@@ -1,0 +1,22 @@
+<!doctype html>
+<html lang="en">
+<head><meta charset="utf-8"/><meta name="viewport" content="width=device-width,initial-scale=1"/><title>Iframe Parent</title>
+<style>body{font-family:system-ui;margin:24px;line-height:1.35}iframe{width:100%;max-width:820px;height:260px;border:1px solid #999;border-radius:12px}button{padding:10px 12px;border:1px solid #999;border-radius:10px;background:#f3f3f3;cursor:pointer}</style>
+</head>
+<body>
+  <a href="./../../index.html" data-testid="back">← back</a>
+  <h1 data-testid="page-title">Iframe Parent</h1>
+  <div data-testid="page-id" data-page-id="iframe-parent"></div>
+
+  <p><button data-testid="btn-send" type="button">Send postMessage to iframe</button></p>
+  <iframe data-testid="iframe" id="child" src="./iframe-child.html" title="iframe child"></iframe>
+
+  <p data-testid="parent-received">parent received: (none)</p>
+
+  <script>
+    const iframe=document.getElementById("child"), recv=document.querySelector("[data-testid='parent-received']");
+    document.querySelector("[data-testid='btn-send']").addEventListener("click", ()=>iframe.contentWindow.postMessage({type:"ping", at:Date.now()}, "*"));
+    window.addEventListener("message", e=>{if(e.data&&e.data.type==="pong")recv.textContent=`parent received: pong (${e.data.payload})`;});
+  </script>
+</body>
+</html>

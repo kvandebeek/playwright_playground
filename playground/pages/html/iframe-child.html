@@ -1,0 +1,17 @@
+<!doctype html>
+<html lang="en">
+<head><meta charset="utf-8"/><meta name="viewport" content="width=device-width,initial-scale=1"/><title>Iframe Child</title>
+<style>body{font-family:system-ui;margin:16px;line-height:1.35}.badge{display:inline-block;padding:4px 8px;border:1px solid #999;border-radius:999px;background:#f3f3f3}</style>
+</head>
+<body>
+  <h1 style="font-size:18px" data-testid="page-title">Iframe Child</h1>
+  <div data-testid="page-id" data-page-id="iframe-child"></div>
+
+  <p class="badge" data-testid="child-status">waiting…</p>
+
+  <script>
+    const s=document.querySelector("[data-testid='child-status']");
+    window.addEventListener("message", e=>{if(e.data&&e.data.type==="ping"){s.textContent="received ping";window.parent.postMessage({type:"pong", payload:"ok"}, "*");}});
+  </script>
+</body>
+</html>

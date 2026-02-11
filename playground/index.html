@@ -1,0 +1,72 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>HTML playground catalog</title>
+  <style>
+    body{font-family:system-ui;margin:24px}
+    .grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:18px}
+    .card{border:1px solid #ddd;border-radius:12px;padding:14px}
+    a{display:block;margin:6px 0}
+    input{padding:8px 10px;border:1px solid #ccc;border-radius:10px;width:100%}
+  </style>
+</head>
+<body>
+  <h1 data-testid="catalog-title">HTML playground catalog</h1>
+
+  <label>Filter</label>
+  <input id="filter" data-testid="catalog-filter" placeholder="Filter pages…" />
+
+  <div class="grid">
+
+    <div class="card">
+      <h2>Core</h2>
+      <a href="./pages/html/text.html">text</a>
+      <a href="./pages/html/lists.html">lists</a>
+      <a href="./pages/html/links.html">links</a>
+      <a href="./pages/html/semantic.html">semantic</a>
+    </div>
+
+    <div class="card">
+      <h2>Media</h2>
+      <a href="./pages/html/media.html">media</a>
+      <a href="./pages/html/images.html">images</a>
+      <a href="./pages/html/audio-video.html">audio-video</a>
+    </div>
+
+    <div class="card">
+      <h2>Forms</h2>
+      <a href="./pages/html/forms-inputs.html">forms-inputs</a>
+      <a href="./pages/html/forms-validation.html">forms-validation</a>
+    </div>
+
+    <div class="card">
+      <h2>Interactive</h2>
+      <a href="./pages/html/details-summary.html">details-summary</a>
+      <a href="./pages/html/dialog.html">dialog</a>
+      <a href="./pages/html/progress-meter.html">progress-meter</a>
+      <a href="./pages/html/content-editable.html">content-editable</a>
+    </div>
+
+    <div class="card">
+      <h2>Embedding</h2>
+      <a href="./pages/html/iframe-parent.html">iframe-parent</a>
+      <a href="./pages/html/iframe-child.html">iframe-child</a>
+    </div>
+
+    <div class="card">
+      <h2>Tables & A11y</h2>
+      <a href="./pages/html/tables.html">tables</a>
+      <a href="./pages/html/a11y.html">a11y</a>
+    </div>
+
+  </div>
+
+  <script>
+    const input=document.getElementById("filter");
+    const links=[...document.querySelectorAll("a")];
+    input.addEventListener("input",()=>{const v=input.value.toLowerCase();links.forEach(a=>a.style.display=a.textContent.toLowerCase().includes(v)?"block":"none");});
+  </script>
+</body>
+</html>

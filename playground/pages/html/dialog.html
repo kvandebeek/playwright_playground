@@ -1,0 +1,36 @@
+<!doctype html>
+<html lang="en">
+<head><meta charset="utf-8"/><meta name="viewport" content="width=device-width,initial-scale=1"/><title>Dialog</title>
+<style>body{font-family:system-ui;margin:24px;line-height:1.35}button{padding:10px 12px;border:1px solid #999;border-radius:10px;background:#f3f3f3;cursor:pointer}dialog{border:1px solid #aaa;border-radius:14px;padding:14px;max-width:520px}dialog::backdrop{background:rgba(0,0,0,.3)}.row{display:flex;gap:10px;flex-wrap:wrap}</style>
+</head>
+<body>
+  <a href="./../../index.html" data-testid="back">← back</a>
+  <h1 data-testid="page-title">Dialog</h1>
+  <div data-testid="page-id" data-page-id="dialog"></div>
+
+  <div class="row">
+    <button data-testid="open-modal" type="button">Open modal dialog</button>
+    <button data-testid="open-nonmodal" type="button">Open non-modal dialog</button>
+  </div>
+
+  <dialog data-testid="dialog" id="dlg">
+    <form method="dialog" data-testid="dialog-form">
+      <h2 data-testid="dialog-title">Confirm action</h2>
+      <p data-testid="dialog-text">Choose OK or Cancel.</p>
+      <div class="row">
+        <button data-testid="btn-ok" value="ok">OK</button>
+        <button data-testid="btn-cancel" value="cancel">Cancel</button>
+      </div>
+    </form>
+  </dialog>
+
+  <p data-testid="dialog-result">result: (none)</p>
+
+  <script>
+    const dlg=document.getElementById("dlg"), res=document.querySelector("[data-testid='dialog-result']");
+    document.querySelector("[data-testid='open-modal']").addEventListener("click", ()=>dlg.showModal());
+    document.querySelector("[data-testid='open-nonmodal']").addEventListener("click", ()=>dlg.show());
+    dlg.addEventListener("close", ()=>res.textContent=`result: ${dlg.returnValue||"(none)"}`);
+  </script>
+</body>
+</html>

@@ -1,0 +1,23 @@
+<!doctype html>
+<html lang="en">
+<head><meta charset="utf-8"/><meta name="viewport" content="width=device-width,initial-scale=1"/><title>Contenteditable</title>
+<style>body{font-family:system-ui;margin:24px;line-height:1.35}.box{border:1px solid #ddd;border-radius:12px;padding:12px;max-width:760px}.edit{border:1px dashed #999;border-radius:10px;padding:10px;min-height:90px}</style>
+</head>
+<body>
+  <a href="./../../index.html" data-testid="back">← back</a>
+  <h1 data-testid="page-title">Contenteditable</h1>
+  <div data-testid="page-id" data-page-id="content-editable"></div>
+
+  <div class="box">
+    <div data-testid="editable" class="edit" contenteditable="true" spellcheck="false">Edit this text. <b>Bold</b> is allowed.</div>
+    <p><button data-testid="btn-read" type="button">Read HTML</button> <button data-testid="btn-clear" type="button">Clear</button></p>
+    <pre data-testid="editable-output" class="edit" style="white-space:pre-wrap"></pre>
+  </div>
+
+  <script>
+    const ed=document.querySelector("[data-testid='editable']"), out=document.querySelector("[data-testid='editable-output']");
+    document.querySelector("[data-testid='btn-read']").addEventListener("click", ()=>out.textContent=ed.innerHTML);
+    document.querySelector("[data-testid='btn-clear']").addEventListener("click", ()=>{ed.innerHTML="";out.textContent="";});
+  </script>
+</body>
+</html>

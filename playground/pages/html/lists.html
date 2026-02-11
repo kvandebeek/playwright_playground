@@ -1,0 +1,40 @@
+<!doctype html>
+<html lang="en">
+<head><meta charset="utf-8"/><meta name="viewport" content="width=device-width,initial-scale=1"/><title>Lists</title>
+<style>body{font-family:system-ui;margin:24px;line-height:1.35}li{margin:4px 0}code{background:#f3f3f3;padding:2px 6px;border-radius:8px}</style>
+</head>
+<body>
+  <a href="./../../index.html" data-testid="back">← back</a>
+  <h1 data-testid="page-title">Lists</h1>
+  <div data-testid="page-id" data-page-id="lists"></div>
+
+  <h2>Unordered</h2>
+  <ul data-testid="ul">
+    <li data-testid="ul-1">Alpha</li>
+    <li data-testid="ul-2">Beta</li>
+    <li data-testid="ul-3">Gamma</li>
+  </ul>
+
+  <h2>Ordered</h2>
+  <ol data-testid="ol" start="3">
+    <li data-testid="ol-1">Third</li>
+    <li data-testid="ol-2">Fourth</li>
+  </ol>
+
+  <h2>Description</h2>
+  <dl data-testid="dl">
+    <dt data-testid="dt-1">Term A</dt><dd data-testid="dd-1">Definition A</dd>
+    <dt data-testid="dt-2">Term B</dt><dd data-testid="dd-2">Definition B</dd>
+  </dl>
+
+  <p>Nested list:</p>
+  <ul data-testid="nested-ul">
+    <li>Parent
+      <ul>
+        <li data-testid="nested-child-1">Child 1</li>
+        <li data-testid="nested-child-2">Child 2</li>
+      </ul>
+    </li>
+  </ul>
+</body>
+</html>

@@ -1,0 +1,80 @@
+<!doctype html>
+<html lang="en">
+<head><meta charset="utf-8"/><meta name="viewport" content="width=device-width,initial-scale=1"/><title>Forms - Inputs</title>
+<style>body{font-family:system-ui;margin:24px;line-height:1.35}form{display:grid;grid-template-columns:220px 1fr;gap:10px;max-width:860px}label{align-self:center}input,select,textarea{padding:8px 10px;border:1px solid #ccc;border-radius:10px}fieldset{border:1px solid #ddd;border-radius:12px;padding:12px}legend{padding:0 6px}button{padding:10px 12px;border:1px solid #999;border-radius:10px;background:#f3f3f3;cursor:pointer}</style>
+</head>
+<body>
+  <a href="./../../index.html" data-testid="back">← back</a>
+  <h1 data-testid="page-title">Forms - Inputs</h1>
+  <div data-testid="page-id" data-page-id="forms-inputs"></div>
+
+  <form data-testid="form-inputs" id="f">
+    <label for="t">Text</label><input data-testid="input-text" id="t" name="t" type="text" placeholder="hello" />
+
+    <label for="p">Password</label><input data-testid="input-password" id="p" name="p" type="password" value="secret" />
+
+    <label for="e">Email</label><input data-testid="input-email" id="e" name="e" type="email" placeholder="a@b.com" />
+
+    <label for="n">Number</label><input data-testid="input-number" id="n" name="n" type="number" min="1" max="10" step="1" value="3" />
+
+    <label for="r">Range</label><input data-testid="input-range" id="r" name="r" type="range" min="0" max="100" value="40" />
+
+    <label for="d">Date</label><input data-testid="input-date" id="d" name="d" type="date" />
+
+    <label for="ti">Time</label><input data-testid="input-time" id="ti" name="ti" type="time" />
+
+    <label for="dt">Datetime-local</label><input data-testid="input-datetime" id="dt" name="dt" type="datetime-local" />
+
+    <label for="c">Color</label><input data-testid="input-color" id="c" name="c" type="color" value="#336699" />
+
+    <label for="s">Search</label><input data-testid="input-search" id="s" name="s" type="search" placeholder="search…" />
+
+    <label for="tel">Tel</label><input data-testid="input-tel" id="tel" name="tel" type="tel" placeholder="+32..." />
+
+    <label for="u">URL</label><input data-testid="input-url" id="u" name="u" type="url" placeholder="https://example.com" />
+
+    <label for="ta">Textarea</label><textarea data-testid="textarea" id="ta" name="ta" rows="3">Line 1
+Line 2</textarea>
+
+    <label for="sel">Select</label>
+    <select data-testid="select" id="sel" name="sel">
+      <optgroup label="Group A"><option value="a1">A1</option><option value="a2">A2</option></optgroup>
+      <optgroup label="Group B"><option value="b1">B1</option><option value="b2">B2</option></optgroup>
+    </select>
+
+    <label for="msel">Multi-select</label>
+    <select data-testid="multiselect" id="msel" name="msel" multiple size="4">
+      <option value="m1">M1</option><option value="m2">M2</option><option value="m3">M3</option><option value="m4">M4</option>
+    </select>
+
+    <label for="dl">Datalist</label>
+    <input data-testid="input-datalist" id="dl" name="dl" list="cities" placeholder="Start typing…" />
+    <datalist id="cities"><option value="Antwerp"></option><option value="Brussels"></option><option value="Ghent"></option><option value="Leuven"></option></datalist>
+
+    <label for="fup">File</label><input data-testid="input-file" id="fup" name="fup" type="file" multiple />
+
+    <fieldset data-testid="fieldset" style="grid-column:1 / -1">
+      <legend>Radio + Checkbox</legend>
+      <label><input data-testid="radio-a" type="radio" name="radio" value="a" checked /> Radio A</label>
+      <label><input data-testid="radio-b" type="radio" name="radio" value="b" /> Radio B</label>
+      <br />
+      <label><input data-testid="check-1" type="checkbox" name="check1" checked /> Checkbox 1</label>
+      <label><input data-testid="check-2" type="checkbox" name="check2" /> Checkbox 2</label>
+    </fieldset>
+
+    <div style="grid-column:1 / -1;display:flex;gap:10px;flex-wrap:wrap">
+      <button data-testid="btn-submit" type="submit">Submit</button>
+      <button data-testid="btn-reset" type="reset">Reset</button>
+      <button data-testid="btn-disabled" type="button" disabled>Disabled</button>
+      <button data-testid="btn-readonly" type="button" onclick="document.getElementById('t').readOnly=!document.getElementById('t').readOnly">Toggle readonly text</button>
+    </div>
+
+    <output data-testid="form-output" style="grid-column:1 / -1"></output>
+  </form>
+
+  <script>
+    const f=document.getElementById("f"), out=document.querySelector("[data-testid='form-output']");
+    f.addEventListener("submit", e=>{e.preventDefault();const fd=new FormData(f);out.value=[...fd.entries()].map(([k,v])=>`${k}=${v instanceof File?v.name:v}`).join(" | ");});
+  </script>
+</body>
+</html>

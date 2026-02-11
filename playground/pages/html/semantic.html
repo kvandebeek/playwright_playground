@@ -1,0 +1,37 @@
+<!doctype html>
+<html lang="en">
+<head><meta charset="utf-8"/><meta name="viewport" content="width=device-width,initial-scale=1"/><title>Semantic</title>
+<style>body{font-family:system-ui;margin:0;line-height:1.35}header,nav,main,aside,footer{padding:14px}header{background:#f5f5f5}nav{background:#fafafa;border-top:1px solid #ddd;border-bottom:1px solid #ddd}main{display:grid;grid-template-columns:2fr 1fr;gap:16px;padding:24px}article,aside{border:1px solid #ddd;border-radius:12px;padding:14px}footer{background:#f5f5f5}</style>
+</head>
+<body>
+  <header>
+    <a href="./../../index.html" data-testid="back">← back</a>
+    <h1 data-testid="page-title">Semantic layout</h1>
+    <div data-testid="page-id" data-page-id="semantic"></div>
+  </header>
+
+  <nav aria-label="Primary" data-testid="nav">
+    <a data-testid="nav-link-1" href="./text.html">Text</a> |
+    <a data-testid="nav-link-2" href="./tables.html">Tables</a> |
+    <a data-testid="nav-link-3" href="./forms-inputs.html">Forms</a>
+  </nav>
+
+  <main data-testid="main">
+    <article data-testid="article">
+      <header><h2 data-testid="article-title">Article header</h2></header>
+      <section data-testid="section-1"><h3>Section 1</h3><p>Section content.</p></section>
+      <section data-testid="section-2"><h3>Section 2</h3><p>More content.</p></section>
+      <footer><small data-testid="article-footer">Article footer</small></footer>
+    </article>
+
+    <aside data-testid="aside">
+      <h2>Aside</h2>
+      <p>Complementary content.</p>
+    </aside>
+  </main>
+
+  <footer data-testid="footer">
+    <small>Footer area</small>
+  </footer>
+</body>
+</html>

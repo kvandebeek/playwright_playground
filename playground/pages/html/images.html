@@ -1,0 +1,38 @@
+<!doctype html>
+<html lang="en">
+<head><meta charset="utf-8"/><meta name="viewport" content="width=device-width,initial-scale=1"/><title>Images</title>
+<style>body{font-family:system-ui;margin:24px;line-height:1.35}.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:16px}.card{border:1px solid #ddd;border-radius:12px;padding:12px}img{max-width:100%;height:auto;border-radius:10px}</style>
+</head>
+<body>
+  <a href="./../../index.html" data-testid="back">← back</a>
+  <h1 data-testid="page-title">Images</h1>
+  <div data-testid="page-id" data-page-id="images"></div>
+
+  <div class="grid">
+    <div class="card">
+      <h2>Basic img</h2>
+      <img data-testid="img-basic" alt="Basic placeholder" loading="lazy" decoding="async"
+           src="data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20width='600'%20height='300'%3E%3Crect%20width='100%25'%20height='100%25'%20fill='%23e7e7e7'/%3E%3Ctext%20x='50%25'%20y='50%25'%20dominant-baseline='middle'%20text-anchor='middle'%20font-family='Arial'%20font-size='22'%20fill='%23333'%3EIMG%20BASIC%3C/text%3E%3C/svg%3E" />
+    </div>
+
+    <div class="card">
+      <h2>Picture (type switch)</h2>
+      <picture data-testid="picture">
+        <source type="image/svg+xml" srcset="data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20width='600'%20height='300'%3E%3Crect%20width='100%25'%20height='100%25'%20fill='%23d7f0ff'/%3E%3Ctext%20x='50%25'%20y='50%25'%20dominant-baseline='middle'%20text-anchor='middle'%20font-family='Arial'%20font-size='22'%20fill='%23055'%3EPICTURE%20SOURCE%3C/text%3E%3C/svg%3E" />
+        <img data-testid="img-picture-fallback" alt="Picture fallback" src="data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20width='600'%20height='300'%3E%3Crect%20width='100%25'%20height='100%25'%20fill='%23ffe8d7'/%3E%3Ctext%20x='50%25'%20y='50%25'%20dominant-baseline='middle'%20text-anchor='middle'%20font-family='Arial'%20font-size='22'%20fill='%23550'%3EPICTURE%20FALLBACK%3C/text%3E%3C/svg%3E" />
+      </picture>
+    </div>
+
+    <div class="card">
+      <h2>srcset + sizes (still SVG)</h2>
+      <img data-testid="img-srcset" alt="srcset placeholder"
+           sizes="(max-width: 600px) 90vw, 600px"
+           srcset="
+             data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20width='320'%20height='160'%3E%3Crect%20width='100%25'%20height='100%25'%20fill='%23eee'/%3E%3Ctext%20x='50%25'%20y='50%25'%20dominant-baseline='middle'%20text-anchor='middle'%20font-family='Arial'%20font-size='18'%20fill='%23333'%3E320w%3C/text%3E%3C/svg%3E 320w,
+             data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20width='600'%20height='300'%3E%3Crect%20width='100%25'%20height='100%25'%20fill='%23ddd'/%3E%3Ctext%20x='50%25'%20y='50%25'%20dominant-baseline='middle'%20text-anchor='middle'%20font-family='Arial'%20font-size='22'%20fill='%23333'%3E600w%3C/text%3E%3C/svg%3E 600w
+           "
+           src="data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20width='600'%20height='300'%3E%3Crect%20width='100%25'%20height='100%25'%20fill='%23ddd'/%3E%3Ctext%20x='50%25'%20y='50%25'%20dominant-baseline='middle'%20text-anchor='middle'%20font-family='Arial'%20font-size='22'%20fill='%23333'%3E600w%3C/text%3E%3C/svg%3E" />
+    </div>
+  </div>
+</body>
+</html>

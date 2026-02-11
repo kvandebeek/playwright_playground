@@ -1,0 +1,28 @@
+<!doctype html>
+<html lang="en">
+<head><meta charset="utf-8"/><meta name="viewport" content="width=device-width,initial-scale=1"/><title>Audio & Video</title>
+<style>body{font-family:system-ui;margin:24px;line-height:1.35}.box{border:1px solid #ddd;border-radius:12px;padding:12px;margin:12px 0}</style>
+</head>
+<body>
+  <a href="./../../index.html" data-testid="back">← back</a>
+  <h1 data-testid="page-title">Audio & Video</h1>
+  <div data-testid="page-id" data-page-id="audio-video"></div>
+
+  <div class="box">
+    <h2>Audio (no source)</h2>
+    <audio data-testid="audio" controls>
+      Your browser does not support audio.
+    </audio>
+    <p data-testid="audio-note">No source on purpose; tests can still assert element visibility and attributes.</p>
+  </div>
+
+  <div class="box">
+    <h2>Video (no source)</h2>
+    <video data-testid="video" controls width="420">
+      <track data-testid="track" kind="captions" srclang="en" label="English" default>
+      Your browser does not support video.
+    </video>
+    <p data-testid="video-note">No source on purpose; tests can still interact with controls.</p>
+  </div>
+</body>
+</html>

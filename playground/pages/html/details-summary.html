@@ -1,0 +1,28 @@
+<!doctype html>
+<html lang="en">
+<head><meta charset="utf-8"/><meta name="viewport" content="width=device-width,initial-scale=1"/><title>Details & Summary</title>
+<style>body{font-family:system-ui;margin:24px;line-height:1.35}details{border:1px solid #ddd;border-radius:12px;padding:10px;margin:12px 0}summary{cursor:pointer;font-weight:600}</style>
+</head>
+<body>
+  <a href="./../../index.html" data-testid="back">← back</a>
+  <h1 data-testid="page-title">Details & Summary</h1>
+  <div data-testid="page-id" data-page-id="details-summary"></div>
+
+  <details data-testid="details-1">
+    <summary data-testid="summary-1">Click to expand</summary>
+    <p data-testid="details-1-content">Expanded content 1.</p>
+  </details>
+
+  <details data-testid="details-2" open>
+    <summary data-testid="summary-2">Open by default</summary>
+    <p data-testid="details-2-content">Expanded content 2.</p>
+  </details>
+
+  <button data-testid="toggle-details-1" type="button">Toggle first</button>
+
+  <script>
+    const d1=document.querySelector("[data-testid='details-1']");
+    document.querySelector("[data-testid='toggle-details-1']").addEventListener("click", ()=>d1.open=!d1.open);
+  </script>
+</body>
+</html>

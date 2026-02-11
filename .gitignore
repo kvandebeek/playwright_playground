@@ -1,0 +1,18 @@
+# Node
+node_modules/
+package-lock.json
+
+# Playwright
+playwright-report/
+test-results/
+blob-report/
+
+# OS
+.DS_Store
+Thumbs.db
+
+# VS Code
+.vscode/
+
+# Logs
+*.log
