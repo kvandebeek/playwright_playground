@@ -1,0 +1,372 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Playground • Admin Dashboard</title>
+
+  <link rel="stylesheet" href="../styles/base.css" />
+  <link rel="stylesheet" href="../styles/components.css" />
+</head>
+
+<body>
+  <div class="app" data-testid="app">
+    <header class="topbar">
+      <div class="topbar__in">
+        <div class="brand">
+          <span class="brand__dot"></span>
+          <strong>HTML Playground</strong>
+        </div>
+
+        <nav class="nav" aria-label="Primary">
+          <a href="./kitchen-sink.html">Catalog</a>
+          <a href="./kitchen-sink.html">Forms</a>
+          <a href="./kitchen-sink.html">Tables</a>
+          <a href="./kitchen-sink.html" aria-current="page">Dashboard</a>
+        </nav>
+      </div>
+    </header>
+
+    <main class="main container" data-testid="page-dashboard">
+      <div class="grid" style="gap: var(--s3);">
+
+        <section class="card" data-elevate data-testid="card">
+          <div class="card__hd">
+            <strong>Overview</strong>
+            <span class="badge">Live</span>
+          </div>
+          <div class="card__bd">
+            <div class="grid grid--3">
+              <div class="card" data-testid="metric-card">
+                <div class="card__hd">
+                  <strong>Orders</strong>
+                  <span class="badge" data-tone="ok">+12%</span>
+                </div>
+                <div class="card__bd">
+                  <div style="font-size: 2rem; font-weight: 700; letter-spacing: .5px;" data-testid="metric-value">248</div>
+                  <div style="color: var(--muted);" data-testid="metric-subtitle">Last 24 hours</div>
+                  <div style="margin-top: var(--s2); display:flex; gap: var(--s1); flex-wrap: wrap;">
+                    <button class="btn" data-testid="btn" data-variant="primary">View</button>
+                    <button class="btn" data-testid="btn">Export</button>
+                  </div>
+                </div>
+              </div>
+
+              <div class="card" data-testid="metric-card">
+                <div class="card__hd">
+                  <strong>Tickets</strong>
+                  <span class="badge" data-tone="warn">Needs triage</span>
+                </div>
+                <div class="card__bd">
+                  <div style="font-size: 2rem; font-weight: 700; letter-spacing: .5px;" data-testid="metric-value">37</div>
+                  <div style="color: var(--muted);" data-testid="metric-subtitle">Open, unassigned</div>
+                  <div style="margin-top: var(--s2); display:flex; gap: var(--s1); flex-wrap: wrap;">
+                    <button class="btn" data-testid="btn" data-variant="primary">Assign</button>
+                    <button class="btn" data-testid="btn">Snooze</button>
+                  </div>
+                </div>
+              </div>
+
+              <div class="card" data-testid="metric-card">
+                <div class="card__hd">
+                  <strong>Incidents</strong>
+                  <span class="badge" data-tone="danger">Escalated</span>
+                </div>
+                <div class="card__bd">
+                  <div style="font-size: 2rem; font-weight: 700; letter-spacing: .5px;" data-testid="metric-value">3</div>
+                  <div style="color: var(--muted);" data-testid="metric-subtitle">Active right now</div>
+                  <div style="margin-top: var(--s2); display:flex; gap: var(--s1); flex-wrap: wrap;">
+                    <button class="btn" data-testid="btn" data-variant="danger">Acknowledge</button>
+                    <button class="btn" data-testid="btn">Details</button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <div class="grid grid--2" style="align-items:start;">
+          <section class="card" data-elevate data-testid="card">
+            <div class="card__hd">
+              <strong>Search & Filters</strong>
+              <span class="badge">Reusable</span>
+            </div>
+            <div class="card__bd">
+              <div class="grid" style="gap: var(--s2);">
+                <div class="field">
+                  <label class="label" for="q">Search</label>
+                  <input class="input" id="q" data-testid="input" placeholder="Search orders, tickets, incidents..." />
+                </div>
+
+                <div class="grid grid--2">
+                  <div class="field">
+                    <label class="label" for="status">Status</label>
+                    <select id="status" data-testid="select">
+                      <option value="">Any</option>
+                      <option value="open">Open</option>
+                      <option value="blocked">Blocked</option>
+                      <option value="closed">Closed</option>
+                    </select>
+                  </div>
+
+                  <div class="field">
+                    <label class="label" for="owner">Owner</label>
+                    <select id="owner" data-testid="select">
+                      <option value="">Anyone</option>
+                      <option value="me">Me</option>
+                      <option value="team-a">Team A</option>
+                      <option value="team-b">Team B</option>
+                    </select>
+                  </div>
+                </div>
+
+                <div class="grid grid--2">
+                  <button class="btn" data-testid="btn" data-variant="primary">Apply</button>
+                  <button class="btn" data-testid="btn">Reset</button>
+                </div>
+
+                <section class="card" data-testid="card">
+                  <div class="card__hd">
+                    <strong>Validation demo</strong>
+                    <span class="badge" data-tone="warn">Mixed</span>
+                  </div>
+                  <div class="card__bd">
+                    <div class="grid grid--2">
+                      <div class="field">
+                        <label class="label" for="email">Email</label>
+                        <input class="input" id="email" data-testid="input" placeholder="name@company.com" aria-invalid="true" />
+                      </div>
+                      <div class="field">
+                        <label class="label" for="code">Code</label>
+                        <input class="input" id="code" data-testid="input" placeholder="ABC-123" />
+                      </div>
+                    </div>
+                    <div style="margin-top: var(--s2); display:flex; gap: var(--s1); flex-wrap: wrap;">
+                      <button class="btn" data-testid="btn" data-variant="primary">Save</button>
+                      <button class="btn" data-testid="btn" disabled>Disabled</button>
+                      <button class="btn" data-testid="btn" data-variant="danger">Delete</button>
+                    </div>
+                  </div>
+                </section>
+              </div>
+            </div>
+          </section>
+
+          <section class="card" data-elevate data-testid="card">
+            <div class="card__hd">
+              <strong>Quick Actions</strong>
+              <span class="badge">3 groups</span>
+            </div>
+            <div class="card__bd">
+              <div class="grid" style="gap: var(--s2);">
+                <section class="card" data-testid="card">
+                  <div class="card__hd">
+                    <strong>Orders</strong>
+                    <span class="badge" data-tone="ok">Safe</span>
+                  </div>
+                  <div class="card__bd">
+                    <div style="display:flex; gap: var(--s1); flex-wrap: wrap;">
+                      <button class="btn" data-testid="btn" data-variant="primary">Create order</button>
+                      <button class="btn" data-testid="btn">Refund</button>
+                      <button class="btn" data-testid="btn">Print</button>
+                    </div>
+                  </div>
+                </section>
+
+                <section class="card" data-testid="card">
+                  <div class="card__hd">
+                    <strong>Tickets</strong>
+                    <span class="badge" data-tone="warn">Careful</span>
+                  </div>
+                  <div class="card__bd">
+                    <div style="display:flex; gap: var(--s1); flex-wrap: wrap;">
+                      <button class="btn" data-testid="btn" data-variant="primary">Assign to me</button>
+                      <button class="btn" data-testid="btn">Escalate</button>
+                      <button class="btn" data-testid="btn">Close</button>
+                    </div>
+                  </div>
+                </section>
+
+                <section class="card" data-testid="card">
+                  <div class="card__hd">
+                    <strong>Incidents</strong>
+                    <span class="badge" data-tone="danger">Risk</span>
+                  </div>
+                  <div class="card__bd">
+                    <div style="display:flex; gap: var(--s1); flex-wrap: wrap;">
+                      <button class="btn" data-testid="btn" data-variant="danger">Acknowledge</button>
+                      <button class="btn" data-testid="btn">Mute</button>
+                      <button class="btn" data-testid="btn">Runbook</button>
+                    </div>
+                  </div>
+                </section>
+              </div>
+            </div>
+          </section>
+        </div>
+
+        <section class="card" data-elevate data-testid="card">
+          <div class="card__hd">
+            <strong>Recent Activity</strong>
+            <span class="badge">Table + duplicates</span>
+          </div>
+          <div class="card__bd">
+            <div class="tablewrap" data-testid="tablewrap">
+              <div class="tablewrap__scroller">
+                <table data-testid="table">
+                  <thead>
+                    <tr>
+                      <th>Type</th>
+                      <th>ID</th>
+                      <th>Summary</th>
+                      <th>Status</th>
+                      <th>Owner</th>
+                      <th>Actions</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr data-testid="row" data-rowid="ORD-1001">
+                      <td><span class="badge" data-tone="ok">Order</span></td>
+                      <td><code>ORD-1001</code></td>
+                      <td>New order created</td>
+                      <td><span class="badge">Open</span></td>
+                      <td>Team A</td>
+                      <td>
+                        <button class="btn" data-testid="btn">View</button>
+                        <button class="btn" data-testid="btn">Export</button>
+                      </td>
+                    </tr>
+
+                    <tr data-testid="row" data-rowid="TCK-2207">
+                      <td><span class="badge" data-tone="warn">Ticket</span></td>
+                      <td><code>TCK-2207</code></td>
+                      <td>Customer reported issue</td>
+                      <td><span class="badge" data-tone="warn">Needs triage</span></td>
+                      <td>Unassigned</td>
+                      <td>
+                        <button class="btn" data-testid="btn" data-variant="primary">Assign</button>
+                        <button class="btn" data-testid="btn">Snooze</button>
+                      </td>
+                    </tr>
+
+                    <tr data-testid="row" data-rowid="INC-0013">
+                      <td><span class="badge" data-tone="danger">Incident</span></td>
+                      <td><code>INC-0013</code></td>
+                      <td>Service degradation detected</td>
+                      <td><span class="badge" data-tone="danger">Escalated</span></td>
+                      <td>Team B</td>
+                      <td>
+                        <button class="btn" data-testid="btn" data-variant="danger">Ack</button>
+                        <button class="btn" data-testid="btn">Details</button>
+                      </td>
+                    </tr>
+
+                    <tr data-testid="row" data-rowid="ORD-1002">
+                      <td><span class="badge" data-tone="ok">Order</span></td>
+                      <td><code>ORD-1002</code></td>
+                      <td>Refund requested</td>
+                      <td><span class="badge">Open</span></td>
+                      <td>Me</td>
+                      <td>
+                        <button class="btn" data-testid="btn">View</button>
+                        <button class="btn" data-testid="btn">Refund</button>
+                      </td>
+                    </tr>
+
+                    <tr data-testid="row" data-rowid="TCK-2210">
+                      <td><span class="badge" data-tone="warn">Ticket</span></td>
+                      <td><code>TCK-2210</code></td>
+                      <td>Login fails for specific user</td>
+                      <td><span class="badge" data-tone="warn">Needs triage</span></td>
+                      <td>Team A</td>
+                      <td>
+                        <button class="btn" data-testid="btn" data-variant="primary">Assign</button>
+                        <button class="btn" data-testid="btn">Close</button>
+                      </td>
+                    </tr>
+
+                    <tr data-testid="row" data-rowid="INC-0014">
+                      <td><span class="badge" data-tone="danger">Incident</span></td>
+                      <td><code>INC-0014</code></td>
+                      <td>Error rate spike on API</td>
+                      <td><span class="badge" data-tone="danger">Escalated</span></td>
+                      <td>Unassigned</td>
+                      <td>
+                        <button class="btn" data-testid="btn" data-variant="danger">Ack</button>
+                        <button class="btn" data-testid="btn">Mute</button>
+                      </td>
+                    </tr>
+
+                    <tr data-testid="row" data-rowid="ORD-1003">
+                      <td><span class="badge" data-tone="ok">Order</span></td>
+                      <td><code>ORD-1003</code></td>
+                      <td>Order printed</td>
+                      <td><span class="badge">Closed</span></td>
+                      <td>Team B</td>
+                      <td>
+                        <button class="btn" data-testid="btn">View</button>
+                        <button class="btn" data-testid="btn">Print</button>
+                      </td>
+                    </tr>
+
+                    <tr data-testid="row" data-rowid="TCK-2211">
+                      <td><span class="badge" data-tone="warn">Ticket</span></td>
+                      <td><code>TCK-2211</code></td>
+                      <td>Feature request: bulk export</td>
+                      <td><span class="badge">Open</span></td>
+                      <td>Me</td>
+                      <td>
+                        <button class="btn" data-testid="btn">View</button>
+                        <button class="btn" data-testid="btn">Snooze</button>
+                      </td>
+                    </tr>
+
+                    <tr data-testid="row" data-rowid="INC-0015">
+                      <td><span class="badge" data-tone="danger">Incident</span></td>
+                      <td><code>INC-0015</code></td>
+                      <td>Database latency high</td>
+                      <td><span class="badge" data-tone="danger">Escalated</span></td>
+                      <td>Team A</td>
+                      <td>
+                        <button class="btn" data-testid="btn" data-variant="danger">Ack</button>
+                        <button class="btn" data-testid="btn">Runbook</button>
+                      </td>
+                    </tr>
+
+                    <tr data-testid="row" data-rowid="ORD-1004">
+                      <td><span class="badge" data-tone="ok">Order</span></td>
+                      <td><code>ORD-1004</code></td>
+                      <td>Customer updated shipping address</td>
+                      <td><span class="badge">Open</span></td>
+                      <td>Unassigned</td>
+                      <td>
+                        <button class="btn" data-testid="btn">View</button>
+                        <button class="btn" data-testid="btn">Export</button>
+                      </td>
+                    </tr>
+
+                  </tbody>
+                </table>
+              </div>
+            </div>
+
+            <div style="margin-top: var(--s2); display:flex; gap: var(--s1); flex-wrap: wrap; justify-content:flex-end;">
+              <button class="btn" data-testid="btn">Previous</button>
+              <button class="btn" data-testid="btn" data-variant="primary">Next</button>
+            </div>
+          </div>
+        </section>
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer__in">
+        <span>Dashboard kitchen sink</span>
+        <span>Multiple identical <code>data-testid="btn"</code> / <code>data-testid="card"</code> / <code>data-testid="row"</code></span>
+      </div>
+    </footer>
+  </div>
+  <script src="../scripts/dashboard.js"></script>
+</body>
+</html>

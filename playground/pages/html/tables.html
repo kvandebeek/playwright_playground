@@ -1,8 +1,14 @@
 <!doctype html>
 <html lang="en">
-<head><meta charset="utf-8"/><meta name="viewport" content="width=device-width,initial-scale=1"/><title>Tables</title>
-<style>body{font-family:system-ui;margin:24px;line-height:1.35}table{border-collapse:collapse;width:100%;max-width:860px}th,td{border:1px solid #ccc;padding:8px 10px;text-align:left}caption{caption-side:top;font-weight:700;margin-bottom:8px}thead th{background:#f3f3f3}.controls{display:flex;gap:10px;flex-wrap:wrap;align-items:center;margin:10px 0}input{padding:8px 10px;border:1px solid #ccc;border-radius:10px}</style>
+
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Tables</title>
+  <link rel="stylesheet" href="../styles/base.css">
+  <link rel="stylesheet" href="../styles/components.css">
 </head>
+
 <body>
   <a href="./../../index.html" data-testid="back">← back</a>
   <h1 data-testid="page-title">Tables</h1>
@@ -16,27 +22,56 @@
 
   <table data-testid="table" id="tbl">
     <caption data-testid="caption">Demo table</caption>
-    <colgroup><col /><col /><col style="width:120px" /></colgroup>
+    <colgroup>
+      <col />
+      <col />
+      <col style="width:120px" />
+    </colgroup>
     <thead>
-      <tr><th data-testid="th-name">Name</th><th data-testid="th-city">City</th><th data-testid="th-age">Age</th></tr>
+      <tr>
+        <th data-testid="th-name">Name</th>
+        <th data-testid="th-city">City</th>
+        <th data-testid="th-age">Age</th>
+      </tr>
     </thead>
     <tbody data-testid="tbody">
-      <tr data-testid="row-1"><td>Alice</td><td>Antwerp</td><td>29</td></tr>
-      <tr data-testid="row-2"><td>Bob</td><td>Brussels</td><td>41</td></tr>
-      <tr data-testid="row-3"><td>Charlie</td><td>Ghent</td><td>33</td></tr>
-      <tr data-testid="row-4"><td>Dana</td><td>Leuven</td><td>25</td></tr>
+      <tr data-testid="row-1">
+        <td>Alice</td>
+        <td>Antwerp</td>
+        <td>29</td>
+      </tr>
+      <tr data-testid="row-2">
+        <td>Bob</td>
+        <td>Brussels</td>
+        <td>41</td>
+      </tr>
+      <tr data-testid="row-3">
+        <td>Charlie</td>
+        <td>Ghent</td>
+        <td>33</td>
+      </tr>
+      <tr data-testid="row-4">
+        <td>Dana</td>
+        <td>Leuven</td>
+        <td>25</td>
+      </tr>
     </tbody>
-    <tfoot><tr><td colspan="3" data-testid="tfoot">tfoot row</td></tr></tfoot>
+    <tfoot>
+      <tr>
+        <td colspan="3" data-testid="tfoot">tfoot row</td>
+      </tr>
+    </tfoot>
   </table>
 
   <script>
-    const tbl=document.getElementById("tbl"), tbody=tbl.querySelector("tbody"), filter=document.getElementById("filter");
-    const rows=()=>[...tbody.querySelectorAll("tr")], txt=r=>r.textContent.toLowerCase();
-    const applyFilter=()=>{const v=(filter.value||"").toLowerCase();rows().forEach(r=>r.style.display=txt(r).includes(v)?"table-row":"none");};
-    const sortBy=(idx, num)=>{rows().sort((a,b)=>{const va=a.children[idx].textContent, vb=b.children[idx].textContent;return (num?Number(va)-Number(vb):va.localeCompare(vb));}).forEach(r=>tbody.appendChild(r));};
-    document.getElementById("sortName").addEventListener("click", ()=>sortBy(0,false));
-    document.getElementById("sortAge").addEventListener("click", ()=>sortBy(2,true));
+    const tbl = document.getElementById("tbl"), tbody = tbl.querySelector("tbody"), filter = document.getElementById("filter");
+    const rows = () => [...tbody.querySelectorAll("tr")], txt = r => r.textContent.toLowerCase();
+    const applyFilter = () => { const v = (filter.value || "").toLowerCase(); rows().forEach(r => r.style.display = txt(r).includes(v) ? "table-row" : "none"); };
+    const sortBy = (idx, num) => { rows().sort((a, b) => { const va = a.children[idx].textContent, vb = b.children[idx].textContent; return (num ? Number(va) - Number(vb) : va.localeCompare(vb)); }).forEach(r => tbody.appendChild(r)); };
+    document.getElementById("sortName").addEventListener("click", () => sortBy(0, false));
+    document.getElementById("sortAge").addEventListener("click", () => sortBy(2, true));
     filter.addEventListener("input", applyFilter);
   </script>
 </body>
+
 </html>
