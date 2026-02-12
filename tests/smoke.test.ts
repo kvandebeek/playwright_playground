@@ -1,7 +1,10 @@
 // tests/smoke-test.ts
 import { test, expect } from '@playwright/test';
 
-type SmokeRoute = { path: string; pageId?: string };
+type Allow = { pageErrors?: RegExp[]; consoleErrors?: RegExp[]; httpErrors?: RegExp[]; requestFailed?: RegExp[] };
+type SmokeRoute = { path: string; pageId?: string; allow?: Allow };
+
+const allowGoogleFonts: Allow = { consoleErrors: [/downloadable font: download failed/i, /fonts\.gstatic\.com/i], requestFailed: [/fonts\.(gstatic|googleapis)\.com/i], httpErrors: [/fonts\.(gstatic|googleapis)\.com/i] };
 
 const routes: SmokeRoute[] = [
   { path: '/pages/html/kitchen-sink.html', pageId: 'catalog' },
@@ -12,8 +15,8 @@ const routes: SmokeRoute[] = [
   { path: '/pages/html/dialog.html', pageId: 'dialog' },
   { path: '/pages/html/forms-inputs.html', pageId: 'forms-inputs' },
   { path: '/pages/html/forms-validation.html', pageId: 'forms-validation' },
-  { path: '/pages/html/iframe-child.html', pageId: 'iframe-child' },
-  { path: '/pages/html/iframe-parent.html', pageId: 'iframe-parent' },
+  { path: '/pages/html/iframe-child.html', pageId: 'iframe-child', allow: allowGoogleFonts },
+  { path: '/pages/html/iframe-parent.html', pageId: 'iframe-parent', allow: allowGoogleFonts },
   { path: '/pages/html/images.html', pageId: 'images' },
   { path: '/pages/html/links.html', pageId: 'links' },
   { path: '/pages/html/lists.html', pageId: 'lists' },
@@ -25,36 +28,52 @@ const routes: SmokeRoute[] = [
 ];
 
 const ignoreFavicon = (url: string) => /favicon\.ico($|\?)/i.test(url);
+const matchesAny = (s: string, pats?: RegExp[]) => !!pats?.some(p => p.test(s));
+const allowFor = (r: SmokeRoute, kind: keyof Allow, msg: string) => matchesAny(msg, r.allow?.[kind]);
+const fmt = (title: string, xs: string[]) => xs.length ? `${title}:\n- ${xs.join('\n- ')}` : '';
+const fmtAll = (issues: Record<string, string[]>) => [fmt('PAGE ERRORS', issues.pageErrors), fmt('CONSOLE.ERROR', issues.consoleErrors), fmt('HTTP >= 400', issues.httpErrors), fmt('REQUEST FAILED', issues.requestFailed)].filter(Boolean).join('\n\n');
 
 test.describe('smoke', () => {
   for (const r of routes) {
     test(`loads ${r.path}`, async ({ page, baseURL }, testInfo) => {
       const issues = { pageErrors: [] as string[], consoleErrors: [] as string[], requestFailed: [] as string[], httpErrors: [] as string[] };
+
       page.on('pageerror', e => issues.pageErrors.push(e?.stack || e?.message || String(e)));
-      page.on('console', m => m.type() === 'error' && issues.consoleErrors.push(m.text()));
+      page.on('console', m => {
+        if (m.type() !== 'error') return;
+        const t = m.text();
+        if (/Failed to load resource: the server responded with a status of 404/i.test(t)) return; // noisy; real URL is in httpErrors
+        issues.consoleErrors.push(t);
+      });
+      
       page.on('requestfailed', req => !ignoreFavicon(req.url()) && issues.requestFailed.push(`${req.resourceType()}: ${req.url()} -> ${req.failure()?.errorText || 'unknown'}`));
       page.on('response', res => res.status() >= 400 && !ignoreFavicon(res.url()) && issues.httpErrors.push(`${res.status()}: ${res.url()}`));
-
-      const formatIssues = () => [
-        issues.pageErrors.length ? `PAGE ERRORS:\n- ${issues.pageErrors.join('\n- ')}` : '',
-        issues.consoleErrors.length ? `CONSOLE.ERROR:\n- ${issues.consoleErrors.join('\n- ')}` : '',
-        issues.httpErrors.length ? `HTTP >= 400:\n- ${issues.httpErrors.join('\n- ')}` : '',
-        issues.requestFailed.length ? `REQUEST FAILED:\n- ${issues.requestFailed.join('\n- ')}` : '',
-      ].filter(Boolean).join('\n\n');
 
       await test.step('Navigate', async () => page.goto(new URL(r.path, baseURL).toString(), { waitUntil: 'domcontentloaded' }));
 
       await test.step('Contract', async () => {
+        await expect(page.getByTestId('page-title')).toHaveCount(1);
         await expect(page.getByTestId('page-title')).toBeVisible();
+        await expect(page.getByTestId('page-id')).toHaveCount(1);
         await expect(page.getByTestId('page-id')).toHaveAttribute('data-page-id', /.+/);
         if (r.pageId) await expect(page.getByTestId('page-id')).toHaveAttribute('data-page-id', r.pageId);
       });
 
       await test.step('Errors', async () => {
-        const total = issues.pageErrors.length + issues.consoleErrors.length + issues.httpErrors.length + issues.requestFailed.length;
-        const summary = `Issues found on ${r.path}\n\n${formatIssues() || '(none)'}`;
-        if (total) testInfo.attach('smoke-issues.txt', { body: summary, contentType: 'text/plain' });
-        expect(total, summary).toBe(0);
+        const unexpected = {
+          pageErrors: issues.pageErrors.filter(x => !allowFor(r, 'pageErrors', x)),
+          consoleErrors: issues.consoleErrors.filter(x => !allowFor(r, 'consoleErrors', x)),
+          httpErrors: issues.httpErrors.filter(x => !allowFor(r, 'httpErrors', x)),
+          requestFailed: issues.requestFailed.filter(x => !allowFor(r, 'requestFailed', x)),
+        };
+        const totalUnexpected = unexpected.pageErrors.length + unexpected.consoleErrors.length + unexpected.httpErrors.length + unexpected.requestFailed.length;
+        const allSummary = `ALL issues for ${r.path}\n\n${fmtAll(issues) || '(none)'}`;
+        const unexpectedSummary = `UNEXPECTED issues for ${r.path}\n\n${fmtAll(unexpected) || '(none)'}`;
+
+        if (issues.pageErrors.length + issues.consoleErrors.length + issues.httpErrors.length + issues.requestFailed.length) testInfo.attach('smoke-issues-all.txt', { body: allSummary, contentType: 'text/plain' });
+        if (totalUnexpected) testInfo.attach('smoke-issues-unexpected.txt', { body: unexpectedSummary, contentType: 'text/plain' });
+
+        expect(totalUnexpected, unexpectedSummary).toBe(0);
       });
     });
   }

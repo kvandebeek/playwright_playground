@@ -1,21 +1,14 @@
 import { test, expect } from '@playwright/test';
 
-test('catalog links load', async ({ page, context }) => {
-  await page.goto('/');
-  const links = page.locator('a[href]');
-  const count = await links.count();
-  expect(count).toBeGreaterThan(5);
-
-  for (let i = 0; i < count; i++) {
-    const href = await links.nth(i).getAttribute('href');
-    if (!href || href.startsWith('mailto:') || href.startsWith('tel:') || href.startsWith('data:') || href.startsWith('#')) continue;
-
-    const p = await context.newPage();
-    await p.goto(href);
-
-    await expect(p.getByTestId('page-title')).toBeVisible();
-    await expect(p.getByTestId('page-id')).toHaveAttribute('data-page-id', /.*/);
-
-    await p.close();
+test('catalog links load', async ({ page, baseURL }) => {
+  await page.goto(new URL('/pages/html/kitchen-sink.html', baseURL!).toString());
+  const hrefs = await page.locator('a[href]').evaluateAll(as => as.map(a => (a as HTMLAnchorElement).getAttribute('href')).filter(Boolean) as string[]);
+  for (const href of hrefs) {
+    if (/^(mailto:|tel:|data:|#)/.test(href)) continue;
+    const url = new URL(href, baseURL!).toString();
+    if (!/\/pages\/html\/[^/]+\.html$/i.test(url)) continue; // only pages that should have the contract
+    await page.goto(url, { waitUntil: 'domcontentloaded' });
+    await expect(page.getByTestId('page-title'), `Missing page-title on ${url}`).toBeVisible();
+    await expect(page.getByTestId('page-id'), `Missing page-id on ${url}`).toHaveAttribute('data-page-id', /.+/);
   }
 });

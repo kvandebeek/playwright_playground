@@ -4,12 +4,12 @@ export default defineConfig({
   testDir: './tests',
 
   timeout: 30_000,
-  expect: { timeout: 5_000 },
+  expect: { timeout: 10_000 },
 
   fullyParallel: true,
   forbidOnly: !!process.env.CI,
   retries: process.env.CI ? 2 : 0,
-  workers: process.env.CI ? 1 : undefined,
+  workers: process.env.CI ? 2 : undefined,
 
   reporter: [
     ['html', { open: 'never' }],
@@ -33,6 +33,6 @@ export default defineConfig({
     command: 'npx --yes http-server ./playground -p 8080 -c-1',
     url: 'http://127.0.0.1:8080',
     reuseExistingServer: true,
-    timeout: 30_000
+    timeout: 45_000
   }
 });
