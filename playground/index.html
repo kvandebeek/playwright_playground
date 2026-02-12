@@ -1,13 +1,14 @@
 <!doctype html>
 <html lang="en">
+
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
   <title>HTML playground catalog</title>
   <link rel="stylesheet" href="/pages/styles/base.css">
   <link rel="stylesheet" href="/pages/styles/components.css">
-  
 </head>
+
 <body>
   <h1 data-testid="catalog-title">HTML playground catalog</h1>
 
@@ -15,7 +16,6 @@
   <input id="filter" data-testid="catalog-filter" placeholder="Filter pages…" />
 
   <div class="grid">
-
     <div class="card">
       <h2>Core</h2>
       <a href="./pages/html/text.html">text</a>
@@ -61,15 +61,12 @@
       <h2>All In One</h2>
       <a href="./pages/html/kitchen-sink.html">Kitchen Sink</a>
     </div>
-
-
-
   </div>
 
   <script>
-    const input=document.getElementById("filter");
-    const links=[...document.querySelectorAll("a")];
-    input.addEventListener("input",()=>{const v=input.value.toLowerCase();links.forEach(a=>a.style.display=a.textContent.toLowerCase().includes(v)?"block":"none");});
+    const input = document.getElementById("filter");
+    const links = [...document.querySelectorAll("a")];
+    input.addEventListener("input", () => { const v = input.value.toLowerCase(); links.forEach(a => a.style.display = a.textContent.toLowerCase().includes(v) ? "block" : "none"); });
   </script>
 </body>
 </html>
