@@ -17,10 +17,15 @@ test.describe('text.html', () => {
     });
 
     test('skip link targets main and updates hash', async ({ page }) => {
+        await page.goto('/pages/html/semantic.html');
+
         const skip = page.getByTestId('skip-link');
         await expect(skip).toHaveAttribute('href', '#main');
-        await skip.click();
-        await expect(page).toHaveURL(/#main$/);
+
+        await Promise.all([
+            page.waitForURL(/#main$/),
+            skip.click(),
+        ]);
     });
 
     test('back link points to index and has an accessible name', async ({ page }) => {
