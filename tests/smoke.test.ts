@@ -28,9 +28,8 @@ const ignoreFavicon = (url: string) => /favicon\.ico($|\?)/i.test(url);
 
 test.describe('smoke', () => {
   for (const r of routes) {
-    test(`loads ${r.path}`, async ({ page, baseURL }) => {
+    test(`loads ${r.path}`, async ({ page, baseURL }, testInfo) => {
       const issues = { pageErrors: [] as string[], consoleErrors: [] as string[], requestFailed: [] as string[], httpErrors: [] as string[] };
-
       page.on('pageerror', e => issues.pageErrors.push(e?.stack || e?.message || String(e)));
       page.on('console', m => m.type() === 'error' && issues.consoleErrors.push(m.text()));
       page.on('requestfailed', req => !ignoreFavicon(req.url()) && issues.requestFailed.push(`${req.resourceType()}: ${req.url()} -> ${req.failure()?.errorText || 'unknown'}`));
@@ -43,14 +42,20 @@ test.describe('smoke', () => {
         issues.requestFailed.length ? `REQUEST FAILED:\n- ${issues.requestFailed.join('\n- ')}` : '',
       ].filter(Boolean).join('\n\n');
 
-      await page.goto(new URL(r.path, baseURL).toString(), { waitUntil: 'domcontentloaded' });
+      await test.step('Navigate', async () => page.goto(new URL(r.path, baseURL).toString(), { waitUntil: 'domcontentloaded' }));
 
-      await expect(page.getByTestId('page-title')).toBeVisible();
-      await expect(page.getByTestId('page-id')).toHaveAttribute('data-page-id', /.+/);
-      if (r.pageId) await expect(page.getByTestId('page-id')).toHaveAttribute('data-page-id', r.pageId);
+      await test.step('Contract', async () => {
+        await expect(page.getByTestId('page-title')).toBeVisible();
+        await expect(page.getByTestId('page-id')).toHaveAttribute('data-page-id', /.+/);
+        if (r.pageId) await expect(page.getByTestId('page-id')).toHaveAttribute('data-page-id', r.pageId);
+      });
 
-      const total = issues.pageErrors.length + issues.consoleErrors.length + issues.httpErrors.length + issues.requestFailed.length;
-      expect(total, `Issues found on ${r.path}\n\n${formatIssues() || '(none)'}`).toBe(0);
+      await test.step('Errors', async () => {
+        const total = issues.pageErrors.length + issues.consoleErrors.length + issues.httpErrors.length + issues.requestFailed.length;
+        const summary = `Issues found on ${r.path}\n\n${formatIssues() || '(none)'}`;
+        if (total) testInfo.attach('smoke-issues.txt', { body: summary, contentType: 'text/plain' });
+        expect(total, summary).toBe(0);
+      });
     });
   }
 });
