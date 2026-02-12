@@ -1,49 +1,57 @@
 <!doctype html>
 <html lang="en">
-
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
   <title>Lists</title>
-  <link rel="stylesheet" href="../styles/base.css">
-  <link rel="stylesheet" href="../styles/components.css">
+  <link rel="stylesheet" href="../styles/base.css" />
+  <link rel="stylesheet" href="../styles/components.css" />
 </head>
 
 <body>
-  <a href="./../../index.html" data-testid="back">← back</a>
-  <h1 data-testid="page-title">Lists</h1>
-  <div data-testid="page-id" data-page-id="lists"></div>
+  <a class="skip" data-testid="skip-link" href="#main">Skip to content</a>
 
-  <h2>Unordered</h2>
-  <ul data-testid="ul">
-    <li data-testid="ul-1">Alpha</li>
-    <li data-testid="ul-2">Beta</li>
-    <li data-testid="ul-3">Gamma</li>
-  </ul>
+  <header>
+    <a href="./../../index.html" data-testid="back" aria-label="Back to index">← back</a>
+    <h1 data-testid="page-title">Lists</h1>
+    <div data-testid="page-id" data-page-id="lists"></div>
+  </header>
 
-  <h2>Ordered</h2>
-  <ol data-testid="ol" start="3">
-    <li data-testid="ol-1">Third</li>
-    <li data-testid="ol-2">Fourth</li>
-  </ol>
+  <main id="main" data-testid="main">
+    <h2>Unordered</h2>
+    <ul data-testid="ul" data-count="3">
+      <li data-testid="ul-1">Alpha</li>
+      <li data-testid="ul-2">Beta</li>
+      <li data-testid="ul-3">Gamma</li>
+    </ul>
 
-  <h2>Description</h2>
-  <dl data-testid="dl">
-    <dt data-testid="dt-1">Term A</dt>
-    <dd data-testid="dd-1">Definition A</dd>
-    <dt data-testid="dt-2">Term B</dt>
-    <dd data-testid="dd-2">Definition B</dd>
-  </dl>
+    <h2>Ordered</h2>
+    <ol data-testid="ol" start="3" data-count="2">
+      <li data-testid="ol-1">Third</li>
+      <li data-testid="ol-2">Fourth</li>
+    </ol>
 
-  <p>Nested list:</p>
-  <ul data-testid="nested-ul">
-    <li>Parent
-      <ul>
-        <li data-testid="nested-child-1">Child 1</li>
-        <li data-testid="nested-child-2">Child 2</li>
-      </ul>
-    </li>
-  </ul>
+    <h2>Description</h2>
+    <dl data-testid="dl" data-terms="2">
+      <dt data-testid="dt-1">Term A</dt>
+      <dd data-testid="dd-1">Definition A</dd>
+      <dt data-testid="dt-2">Term B</dt>
+      <dd data-testid="dd-2">Definition B</dd>
+    </dl>
+
+    <p>Nested list:</p>
+    <ul data-testid="nested-ul">
+      <li data-testid="nested-parent">Parent
+        <ul data-testid="nested-ul-children" data-count="2">
+          <li data-testid="nested-child-1">Child 1</li>
+          <li data-testid="nested-child-2">Child 2</li>
+        </ul>
+      </li>
+    </ul>
+  </main>
+
+  <script>
+    (()=>{const setCount=(sel,attr)=>document.querySelectorAll(sel).forEach(l=>l.dataset[attr]=String(l.querySelectorAll(":scope > li").length));setCount("ul[data-testid]", "count");setCount("ol[data-testid]", "count");document.querySelectorAll("dl[data-testid]").forEach(dl=>dl.dataset.terms=String(dl.querySelectorAll(":scope > dt").length));})();
+  </script>
 </body>
-
 </html>

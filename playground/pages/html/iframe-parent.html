@@ -1,23 +1,42 @@
 <!doctype html>
 <html lang="en">
-<head><meta charset="utf-8"/><meta name="viewport" content="width=device-width,initial-scale=1"/><title>Iframe Parent</title>
-  <link rel="stylesheet" href="../styles/base.css">
-  <link rel="stylesheet" href="../styles/components.css">
-  </head>
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Iframe Parent</title>
+  <link rel="stylesheet" href="../styles/base.css" />
+  <link rel="stylesheet" href="../styles/components.css" />
+</head>
+
 <body>
-  <a href="./../../index.html" data-testid="back">← back</a>
-  <h1 data-testid="page-title">Iframe Parent</h1>
-  <div data-testid="page-id" data-page-id="iframe-parent"></div>
+  <a class="skip" data-testid="skip-link" href="#main">Skip to content</a>
 
-  <p><button data-testid="btn-send" type="button">Send postMessage to iframe</button></p>
-  <iframe data-testid="iframe" id="child" src="./iframe-child.html" title="iframe child"></iframe>
+  <header>
+    <a href="./../../index.html" data-testid="back" aria-label="Back to index">← back</a>
+    <h1 data-testid="page-title">Iframe Parent</h1>
+    <div data-testid="page-id" data-page-id="iframe-parent"></div>
+  </header>
 
-  <p data-testid="parent-received">parent received: (none)</p>
+  <main id="main" data-testid="main">
+    <p>
+      <button id="btnSend" data-testid="btn-send" type="button">Send postMessage to iframe</button>
+    </p>
+
+    <iframe
+      data-testid="iframe"
+      id="child"
+      title="iframe child"
+      data-status="loading"
+      data-last-sent=""
+      data-last-received=""
+      src="./iframe-child.html"
+    ></iframe>
+
+    <p data-testid="parent-received" id="recv" data-status="none">parent received: (none)</p>
+  </main>
 
   <script>
-    const iframe=document.getElementById("child"), recv=document.querySelector("[data-testid='parent-received']");
-    document.querySelector("[data-testid='btn-send']").addEventListener("click", ()=>iframe.contentWindow.postMessage({type:"ping", at:Date.now()}, "*"));
-    window.addEventListener("message", e=>{if(e.data&&e.data.type==="pong")recv.textContent=`parent received: pong (${e.data.payload})`;});
+    (()=>{const iframe=document.getElementById("child"),recv=document.getElementById("recv"),btn=document.getElementById("btnSend");const origin=location.origin;const mkSrc=()=>{const u=new URL("./iframe-child.html",location.href);u.searchParams.set("parentOrigin",origin);return u.toString();};iframe.src=mkSrc();const sendPing=()=>{const at=Date.now();iframe.dataset.lastSent=String(at);iframe.dataset.status="ping-sent";iframe.contentWindow&&iframe.contentWindow.postMessage({type:"ping",at},origin);};btn.addEventListener("click",sendPing);iframe.addEventListener("load",()=>{iframe.dataset.status="loaded";sendPing();});window.addEventListener("message",(e)=>{if(e.origin!==origin||e.source!==iframe.contentWindow) return;const d=e.data; if(d&&d.type==="pong"){iframe.dataset.lastReceived=String(Date.now());iframe.dataset.status="pong-received";recv.dataset.status="pong";recv.textContent=`parent received: pong (${d.payload})`;}});})();
   </script>
 </body>
 </html>

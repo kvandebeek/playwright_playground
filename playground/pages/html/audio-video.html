@@ -1,29 +1,46 @@
 <!doctype html>
 <html lang="en">
-<head><meta charset="utf-8"/><meta name="viewport" content="width=device-width,initial-scale=1"/><title>Audio & Video</title>
-  <link rel="stylesheet" href="../styles/base.css">
-  <link rel="stylesheet" href="../styles/components.css">  
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Audio & Video</title>
+  <link rel="stylesheet" href="../styles/base.css" />
+  <link rel="stylesheet" href="../styles/components.css" />
 </head>
+
 <body>
-  <a href="./../../index.html" data-testid="back">← back</a>
-  <h1 data-testid="page-title">Audio & Video</h1>
-  <div data-testid="page-id" data-page-id="audio-video"></div>
+  <a class="skip" data-testid="skip-link" href="#main">Skip to content</a>
 
-  <div class="box">
-    <h2>Audio (no source)</h2>
-    <audio data-testid="audio" controls>
-      Your browser does not support audio.
-    </audio>
-    <p data-testid="audio-note">No source on purpose; tests can still assert element visibility and attributes.</p>
-  </div>
+  <header>
+    <a href="./../../index.html" data-testid="back" aria-label="Back to index">← back</a>
+    <h1 data-testid="page-title">Audio &amp; Video</h1>
+    <div data-testid="page-id" data-page-id="audio-video"></div>
+  </header>
 
-  <div class="box">
-    <h2>Video (no source)</h2>
-    <video data-testid="video" controls width="420">
-      <track data-testid="track" kind="captions" srclang="en" label="English" default>
-      Your browser does not support video.
-    </video>
-    <p data-testid="video-note">No source on purpose; tests can still interact with controls.</p>
-  </div>
+  <main id="main" data-testid="main">
+    <section class="box" aria-labelledby="audio-title">
+      <h2 id="audio-title">Audio (no source)</h2>
+      <audio data-testid="audio" controls preload="none">
+        Your browser does not support audio.
+      </audio>
+      <p data-testid="audio-note">No source on purpose; tests can still assert element visibility and attributes.</p>
+    </section>
+
+    <section class="box" aria-labelledby="video-title">
+      <h2 id="video-title">Video (no source)</h2>
+      <video data-testid="video" controls preload="none" playsinline muted width="420" height="236">
+        <track
+          data-testid="track"
+          kind="captions"
+          srclang="en"
+          label="English"
+          default
+          src="data:text/vtt,WEBVTT%0A%0A00:00.000%20--%3E%2000:01.000%0A"
+        />
+        Your browser does not support video.
+      </video>
+      <p data-testid="video-note">No source on purpose; tests can still interact with controls.</p>
+    </section>
+  </main>
 </body>
 </html>

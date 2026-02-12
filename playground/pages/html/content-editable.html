@@ -1,24 +1,56 @@
 <!doctype html>
 <html lang="en">
-<head><meta charset="utf-8"/><meta name="viewport" content="width=device-width,initial-scale=1"/><title>Contenteditable</title>
-  <link rel="stylesheet" href="../styles/base.css">
-  <link rel="stylesheet" href="../styles/components.css">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Contenteditable</title>
+  <link rel="stylesheet" href="../styles/base.css" />
+  <link rel="stylesheet" href="../styles/components.css" />
 </head>
-<body>
-  <a href="./../../index.html" data-testid="back">← back</a>
-  <h1 data-testid="page-title">Contenteditable</h1>
-  <div data-testid="page-id" data-page-id="content-editable"></div>
 
-  <div class="box">
-    <div data-testid="editable" class="edit" contenteditable="true" spellcheck="false">Edit this text. <b>Bold</b> is allowed.</div>
-    <p><button data-testid="btn-read" type="button">Read HTML</button> <button data-testid="btn-clear" type="button">Clear</button></p>
-    <pre data-testid="editable-output" class="edit" style="white-space:pre-wrap"></pre>
-  </div>
+<body>
+  <a class="skip" data-testid="skip-link" href="#main">Skip to content</a>
+
+  <header>
+    <a href="./../../index.html" data-testid="back" aria-label="Back to index">← back</a>
+    <h1 data-testid="page-title">Contenteditable</h1>
+    <div data-testid="page-id" data-page-id="content-editable"></div>
+  </header>
+
+  <main id="main" data-testid="main">
+    <section class="box" aria-labelledby="editable-title">
+      <h2 id="editable-title">Editable region</h2>
+
+      <div
+        id="editable"
+        data-testid="editable"
+        class="edit"
+        contenteditable="true"
+        role="textbox"
+        aria-multiline="true"
+        aria-labelledby="editable-title"
+        spellcheck="false"
+        tabindex="0"
+      >
+        Edit this text. <b>Bold</b> is allowed.
+      </div>
+
+      <p>
+        <button id="btnRead" data-testid="btn-read" type="button">Read HTML</button>
+        <button id="btnClear" data-testid="btn-clear" type="button">Clear</button>
+      </p>
+
+      <pre
+        id="editableOutput"
+        data-testid="editable-output"
+        class="edit"
+        style="white-space:pre-wrap"
+      ></pre>
+    </section>
+  </main>
 
   <script>
-    const ed=document.querySelector("[data-testid='editable']"), out=document.querySelector("[data-testid='editable-output']");
-    document.querySelector("[data-testid='btn-read']").addEventListener("click", ()=>out.textContent=ed.innerHTML);
-    document.querySelector("[data-testid='btn-clear']").addEventListener("click", ()=>{ed.innerHTML="";out.textContent="";});
+    (()=>{const ed=document.getElementById("editable"),out=document.getElementById("editableOutput"),btnRead=document.getElementById("btnRead"),btnClear=document.getElementById("btnClear");btnRead.addEventListener("click",()=>{out.textContent=ed.innerHTML;});btnClear.addEventListener("click",()=>{ed.innerHTML="";out.textContent="";});})();
   </script>
 </body>
 </html>

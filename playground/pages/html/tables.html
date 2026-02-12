@@ -1,77 +1,63 @@
 <!doctype html>
 <html lang="en">
-
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
   <title>Tables</title>
-  <link rel="stylesheet" href="../styles/base.css">
-  <link rel="stylesheet" href="../styles/components.css">
+  <link rel="stylesheet" href="../styles/base.css" />
+  <link rel="stylesheet" href="../styles/components.css" />
 </head>
 
 <body>
-  <a href="./../../index.html" data-testid="back">← back</a>
-  <h1 data-testid="page-title">Tables</h1>
-  <div data-testid="page-id" data-page-id="tables"></div>
+  <a class="skip" data-testid="skip-link" href="#main">Skip to content</a>
 
-  <div class="controls">
-    <label>Filter: <input data-testid="table-filter" id="filter" placeholder="type to filter…" /></label>
-    <button data-testid="sort-name" id="sortName" type="button">Sort by name</button>
-    <button data-testid="sort-age" id="sortAge" type="button">Sort by age</button>
-  </div>
+  <header>
+    <a href="./../../index.html" data-testid="back" aria-label="Back to index">← back</a>
+    <h1 data-testid="page-title">Tables</h1>
+    <div data-testid="page-id" data-page-id="tables"></div>
+  </header>
 
-  <table data-testid="table" id="tbl">
-    <caption data-testid="caption">Demo table</caption>
-    <colgroup>
-      <col />
-      <col />
-      <col style="width:120px" />
-    </colgroup>
-    <thead>
-      <tr>
-        <th data-testid="th-name">Name</th>
-        <th data-testid="th-city">City</th>
-        <th data-testid="th-age">Age</th>
-      </tr>
-    </thead>
-    <tbody data-testid="tbody">
-      <tr data-testid="row-1">
-        <td>Alice</td>
-        <td>Antwerp</td>
-        <td>29</td>
-      </tr>
-      <tr data-testid="row-2">
-        <td>Bob</td>
-        <td>Brussels</td>
-        <td>41</td>
-      </tr>
-      <tr data-testid="row-3">
-        <td>Charlie</td>
-        <td>Ghent</td>
-        <td>33</td>
-      </tr>
-      <tr data-testid="row-4">
-        <td>Dana</td>
-        <td>Leuven</td>
-        <td>25</td>
-      </tr>
-    </tbody>
-    <tfoot>
-      <tr>
-        <td colspan="3" data-testid="tfoot">tfoot row</td>
-      </tr>
-    </tfoot>
-  </table>
+  <main id="main" data-testid="main">
+    <div class="controls" data-testid="controls">
+      <label for="filter">Filter:</label>
+      <input data-testid="table-filter" id="filter" placeholder="type to filter…" />
+
+      <button data-testid="sort-name" id="sortName" type="button" aria-controls="tbl">Sort by name</button>
+      <button data-testid="sort-age" id="sortAge" type="button" aria-controls="tbl">Sort by age</button>
+    </div>
+
+    <table data-testid="table" id="tbl" data-sort="none" data-sort-dir="asc" data-filter="">
+      <caption data-testid="caption">Demo table</caption>
+      <colgroup>
+        <col />
+        <col />
+        <col style="width:120px" />
+      </colgroup>
+      <thead>
+        <tr>
+          <th data-testid="th-name" scope="col">Name</th>
+          <th data-testid="th-city" scope="col">City</th>
+          <th data-testid="th-age" scope="col">Age</th>
+        </tr>
+      </thead>
+
+      <tbody data-testid="tbody">
+        <tr data-testid="row-1" data-idx="1" data-visible="true"><td>Alice</td><td>Antwerp</td><td>29</td></tr>
+        <tr data-testid="row-2" data-idx="2" data-visible="true"><td>Bob</td><td>Brussels</td><td>41</td></tr>
+        <tr data-testid="row-3" data-idx="3" data-visible="true"><td>Charlie</td><td>Ghent</td><td>33</td></tr>
+        <tr data-testid="row-4" data-idx="4" data-visible="true"><td>Dana</td><td>Leuven</td><td>25</td></tr>
+      </tbody>
+
+      <tfoot>
+        <tr>
+          <td colspan="3" data-testid="tfoot">tfoot row</td>
+        </tr>
+      </tfoot>
+    </table>
+  </main>
 
   <script>
-    const tbl = document.getElementById("tbl"), tbody = tbl.querySelector("tbody"), filter = document.getElementById("filter");
-    const rows = () => [...tbody.querySelectorAll("tr")], txt = r => r.textContent.toLowerCase();
-    const applyFilter = () => { const v = (filter.value || "").toLowerCase(); rows().forEach(r => r.style.display = txt(r).includes(v) ? "table-row" : "none"); };
-    const sortBy = (idx, num) => { rows().sort((a, b) => { const va = a.children[idx].textContent, vb = b.children[idx].textContent; return (num ? Number(va) - Number(vb) : va.localeCompare(vb)); }).forEach(r => tbody.appendChild(r)); };
-    document.getElementById("sortName").addEventListener("click", () => sortBy(0, false));
-    document.getElementById("sortAge").addEventListener("click", () => sortBy(2, true));
-    filter.addEventListener("input", applyFilter);
+    (()=>{const tbl=document.getElementById("tbl"),tbody=tbl.querySelector("tbody"),filter=document.getElementById("filter"),btnName=document.getElementById("sortName"),btnAge=document.getElementById("sortAge");const rows=()=>[...tbody.querySelectorAll("tr")];const rowText=r=>r.textContent.toLowerCase();const applyFilter=()=>{const v=(filter.value||"").toLowerCase();tbl.dataset.filter=v;rows().forEach(r=>{const ok=rowText(r).includes(v);r.style.display=ok?"table-row":"none";r.dataset.visible=String(ok);});};const setSort=(key)=>{const cur=tbl.dataset.sort,dir=tbl.dataset.sortDir;tbl.dataset.sort=key;tbl.dataset.sortDir=(cur===key&&dir==="asc")?"desc":"asc";};const sortBy=(idx,num,key)=>{setSort(key);const dir=tbl.dataset.sortDir==="asc"?1:-1;rows().sort((a,b)=>{const va=a.children[idx].textContent.trim(),vb=b.children[idx].textContent.trim();const cmp=(num?(Number(va)-Number(vb)):va.localeCompare(vb));return cmp!==0?cmp*dir:(Number(a.dataset.idx)-Number(b.dataset.idx));}).forEach(r=>tbody.appendChild(r));};btnName.addEventListener("click",()=>sortBy(0,false,"name"));btnAge.addEventListener("click",()=>sortBy(2,true,"age"));filter.addEventListener("input",applyFilter);applyFilter();})();
   </script>
 </body>
-
 </html>

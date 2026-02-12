@@ -1,45 +1,53 @@
 <!doctype html>
-<html lang="en">
-
+<html lang="en" data-hash="">
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
   <title>Links</title>
-  <link rel="stylesheet" href="../styles/base.css">
-  <link rel="stylesheet" href="../styles/components.css">
+  <link rel="stylesheet" href="../styles/base.css" />
+  <link rel="stylesheet" href="../styles/components.css" />
 </head>
 
-<body>
-  <a href="./../../index.html" data-testid="back">← back</a>
-  <h1 data-testid="page-title">Links</h1>
-  <div data-testid="page-id" data-page-id="links"></div>
+<body id="top">
+  <a class="skip" data-testid="skip-link" href="#main">Skip to content</a>
 
-  <section>
-    <h2>Regular</h2>
-    <a data-testid="link-to-text" href="./text.html">Go to text.html</a>
-    <a data-testid="link-fragment" href="#target">Go to fragment</a>
-  </section>
+  <header>
+    <a href="./../../index.html" data-testid="back" aria-label="Back to index">← back</a>
+    <h1 data-testid="page-title">Links</h1>
+    <div data-testid="page-id" data-page-id="links"></div>
+  </header>
 
-  <section>
-    <h2>New tab</h2>
-    <a data-testid="link-blank" href="./lists.html" target="_blank" rel="noopener">Open lists.html in new tab</a>
-  </section>
+  <main id="main" data-testid="main">
+    <section>
+      <h2>Regular</h2>
+      <a data-testid="link-to-text" href="./text.html">Go to text.html</a>
+      <a data-testid="link-fragment" href="#target">Go to fragment</a>
+    </section>
 
-  <section>
-    <h2>Download</h2>
-    <a data-testid="link-download" href="data:text/plain;charset=utf-8,Hello%20download" download="hello.txt">Download a
-      text file</a>
-  </section>
+    <section>
+      <h2>New tab</h2>
+      <a data-testid="link-blank" href="./lists.html" target="_blank" rel="noopener noreferrer">Open lists.html in new tab</a>
+    </section>
 
-  <section>
-    <h2>mailto / tel</h2>
-    <a data-testid="link-mailto" href="mailto:test@example.com?subject=Hello&body=Body">mailto:</a>
-    <a data-testid="link-tel" href="tel:+32000000000">tel:</a>
-  </section>
+    <section>
+      <h2>Download</h2>
+      <a data-testid="link-download" href="data:text/plain;charset=utf-8,Hello%20download" download="hello.txt">Download a text file</a>
+    </section>
 
-  <div style="height:900px"></div>
-  <h2 id="target" data-testid="fragment-target">Fragment target</h2>
-  <p><a href="#top" onclick="location.hash='';return false;" data-testid="clear-hash">Clear hash (JS)</a></p>
+    <section>
+      <h2>mailto / tel</h2>
+      <a data-testid="link-mailto" href="mailto:test@example.com?subject=Hello&body=Body">mailto:</a>
+      <a data-testid="link-tel" href="tel:+32000000000">tel:</a>
+    </section>
+
+    <div style="height:900px"></div>
+
+    <h2 id="target" data-testid="fragment-target">Fragment target</h2>
+    <p><a href="#top" data-testid="clear-hash">Clear hash (JS)</a></p>
+  </main>
+
+  <script>
+    (()=>{const html=document.documentElement,clear=document.querySelector("[data-testid='clear-hash']");const sync=()=>html.dataset.hash=location.hash||"";window.addEventListener("hashchange",sync);sync();clear.addEventListener("click",(e)=>{e.preventDefault();history.replaceState(null,"",location.pathname+location.search);sync();document.getElementById("top").scrollIntoView({block:"start"});});})();
+  </script>
 </body>
-
 </html>

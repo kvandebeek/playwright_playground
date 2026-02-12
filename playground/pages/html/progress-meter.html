@@ -1,27 +1,43 @@
 <!doctype html>
 <html lang="en">
-<head><meta charset="utf-8"/><meta name="viewport" content="width=device-width,initial-scale=1"/><title>Progress & Meter</title>
-  <link rel="stylesheet" href="../styles/base.css">
-  <link rel="stylesheet" href="../styles/components.css">
-  </head>
-<body>
-  <a href="./../../index.html" data-testid="back">← back</a>
-  <h1 data-testid="page-title">Progress & Meter</h1>
-  <div data-testid="page-id" data-page-id="progress-meter"></div>
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Progress & Meter</title>
+  <link rel="stylesheet" href="../styles/base.css" />
+  <link rel="stylesheet" href="../styles/components.css" />
+</head>
 
-  <div class="box">
-    <p><label>Progress: <progress data-testid="progress" id="prog" value="30" max="100"></progress> <span data-testid="progress-text" id="pt">30</span>%</label></p>
-    <p><label>Meter: <meter data-testid="meter" id="met" min="0" max="100" low="30" high="70" optimum="80" value="55"></meter> <span data-testid="meter-text" id="mt">55</span></label></p>
-    <button data-testid="btn-inc" type="button">Increase</button>
-    <button data-testid="btn-dec" type="button">Decrease</button>
-  </div>
+<body>
+  <a class="skip" data-testid="skip-link" href="#main">Skip to content</a>
+
+  <header>
+    <a href="./../../index.html" data-testid="back" aria-label="Back to index">← back</a>
+    <h1 data-testid="page-title">Progress &amp; Meter</h1>
+    <div data-testid="page-id" data-page-id="progress-meter"></div>
+  </header>
+
+  <main id="main" data-testid="main">
+    <div class="box" data-testid="box" data-progress="30" data-meter="55">
+      <p>
+        <span id="progLabel">Progress:</span>
+        <progress data-testid="progress" id="prog" value="30" max="100" aria-labelledby="progLabel"></progress>
+        <span data-testid="progress-text" id="pt">30</span>%
+      </p>
+
+      <p>
+        <span id="meterLabel">Meter:</span>
+        <meter data-testid="meter" id="met" min="0" max="100" low="30" high="70" optimum="80" value="55" aria-labelledby="meterLabel"></meter>
+        <span data-testid="meter-text" id="mt">55</span>
+      </p>
+
+      <button id="btnInc" data-testid="btn-inc" type="button" aria-controls="prog met">Increase</button>
+      <button id="btnDec" data-testid="btn-dec" type="button" aria-controls="prog met">Decrease</button>
+    </div>
+  </main>
 
   <script>
-    const p=document.getElementById("prog"), m=document.getElementById("met"), pt=document.getElementById("pt"), mt=document.getElementById("mt");
-    const upd=()=>{pt.textContent=String(p.value);mt.textContent=String(m.value);};
-    document.querySelector("[data-testid='btn-inc']").addEventListener("click", ()=>{p.value=Math.min(100,p.value+10);m.value=Math.min(100,m.value+10);upd();});
-    document.querySelector("[data-testid='btn-dec']").addEventListener("click", ()=>{p.value=Math.max(0,p.value-10);m.value=Math.max(0,m.value-10);upd();});
-    upd();
+    (()=>{const box=document.querySelector("[data-testid='box']"),p=document.getElementById("prog"),m=document.getElementById("met"),pt=document.getElementById("pt"),mt=document.getElementById("mt"),inc=document.getElementById("btnInc"),dec=document.getElementById("btnDec");const sync=()=>{pt.textContent=String(p.value);mt.textContent=String(m.value);box.dataset.progress=String(p.value);box.dataset.meter=String(m.value);};inc.addEventListener("click",()=>{p.value=Math.min(100,Number(p.value)+10);m.value=Math.min(100,Number(m.value)+10);sync();});dec.addEventListener("click",()=>{p.value=Math.max(0,Number(p.value)-10);m.value=Math.max(0,Number(m.value)-10);sync();});sync();})();
   </script>
 </body>
 </html>

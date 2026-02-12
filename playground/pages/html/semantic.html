@@ -1,32 +1,51 @@
 <!doctype html>
 <html lang="en">
-<head><meta charset="utf-8"/><meta name="viewport" content="width=device-width,initial-scale=1"/><title>Semantic</title>
-  <link rel="stylesheet" href="../styles/base.css">
-  <link rel="stylesheet" href="../styles/components.css">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Semantic</title>
+  <link rel="stylesheet" href="../styles/base.css" />
+  <link rel="stylesheet" href="../styles/components.css" />
 </head>
+
 <body>
+  <a class="skip" data-testid="skip-link" href="#main">Skip to content</a>
+
   <header>
-    <a href="./../../index.html" data-testid="back">← back</a>
+    <a href="./../../index.html" data-testid="back" aria-label="Back to index">← back</a>
     <h1 data-testid="page-title">Semantic layout</h1>
     <div data-testid="page-id" data-page-id="semantic"></div>
   </header>
 
   <nav aria-label="Primary" data-testid="nav">
-    <a data-testid="nav-link-1" href="./text.html">Text</a> |
-    <a data-testid="nav-link-2" href="./tables.html">Tables</a> |
+    <a data-testid="nav-link-1" href="./text.html">Text</a> <span aria-hidden="true">|</span>
+    <a data-testid="nav-link-2" href="./tables.html">Tables</a> <span aria-hidden="true">|</span>
     <a data-testid="nav-link-3" href="./forms-inputs.html">Forms</a>
   </nav>
 
-  <main data-testid="main">
-    <article data-testid="article">
-      <header><h2 data-testid="article-title">Article header</h2></header>
-      <section data-testid="section-1"><h3>Section 1</h3><p>Section content.</p></section>
-      <section data-testid="section-2"><h3>Section 2</h3><p>More content.</p></section>
-      <footer><small data-testid="article-footer">Article footer</small></footer>
+  <main id="main" data-testid="main">
+    <article data-testid="article" aria-labelledby="article-title">
+      <header data-testid="article-header">
+        <h2 id="article-title" data-testid="article-title">Article header</h2>
+      </header>
+
+      <section data-testid="section-1" aria-labelledby="s1-title">
+        <h3 id="s1-title">Section 1</h3>
+        <p>Section content.</p>
+      </section>
+
+      <section data-testid="section-2" aria-labelledby="s2-title">
+        <h3 id="s2-title">Section 2</h3>
+        <p>More content.</p>
+      </section>
+
+      <footer data-testid="article-footer">
+        <small>Article footer</small>
+      </footer>
     </article>
 
-    <aside data-testid="aside">
-      <h2>Aside</h2>
+    <aside data-testid="aside" aria-labelledby="aside-title">
+      <h2 id="aside-title">Aside</h2>
       <p>Complementary content.</p>
     </aside>
   </main>
