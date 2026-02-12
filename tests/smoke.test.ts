@@ -62,7 +62,6 @@ test.describe('smoke', () => {
           throw e;
         }
       });
-      
 
       await test.step('Errors', async () => {
         const unexpected = { pageErrors: issues.pageErrors.filter(x => !allowFor(r, 'pageErrors', x)), consoleErrors: issues.consoleErrors.filter(x => !allowFor(r, 'consoleErrors', x)), httpErrors: issues.httpErrors.filter(x => !allowFor(r, 'httpErrors', x)), requestFailed: issues.requestFailed.filter(x => !allowFor(r, 'requestFailed', x)) };
