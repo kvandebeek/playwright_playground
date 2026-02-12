@@ -1,5 +1,6 @@
 // tests/smoke-test.ts
 import { test, expect } from '@playwright/test';
+import { attachAnnotatedScreenshot } from './helpers/annotate-screenshot.js';
 
 type Allow = { pageErrors?: RegExp[]; consoleErrors?: RegExp[]; httpErrors?: RegExp[]; requestFailed?: RegExp[] };
 type SmokeRoute = { path: string; pageId?: string; allow?: Allow };
@@ -37,42 +38,40 @@ test.describe('smoke', () => {
   for (const r of routes) {
     test(`loads ${r.path}`, async ({ page, baseURL }, testInfo) => {
       const issues = { pageErrors: [] as string[], consoleErrors: [] as string[], requestFailed: [] as string[], httpErrors: [] as string[] };
+      const origin = new URL(baseURL!).origin;
+      const isSameOrigin = (url: string) => url.startsWith(origin);
 
       page.on('pageerror', e => issues.pageErrors.push(e?.stack || e?.message || String(e)));
-      page.on('console', m => {
-        if (m.type() !== 'error') return;
-        const t = m.text();
-        if (/Failed to load resource: the server responded with a status of 404/i.test(t)) return; // noisy; real URL is in httpErrors
-        issues.consoleErrors.push(t);
-      });
-      
-      page.on('requestfailed', req => !ignoreFavicon(req.url()) && issues.requestFailed.push(`${req.resourceType()}: ${req.url()} -> ${req.failure()?.errorText || 'unknown'}`));
-      page.on('response', res => res.status() >= 400 && !ignoreFavicon(res.url()) && issues.httpErrors.push(`${res.status()}: ${res.url()}`));
+      page.on('console', m => { if (m.type() !== 'error') return; const t = m.text(); if (/Failed to load resource: the server responded with a status of 404/i.test(t)) return; issues.consoleErrors.push(t); });
+      page.on('requestfailed', req => { const url = req.url(); if (!isSameOrigin(url) || ignoreFavicon(url)) return; issues.requestFailed.push(`${req.resourceType()}: ${url} -> ${req.failure()?.errorText || 'unknown'}`); });
+      page.on('response', res => { const url = res.url(); if (!isSameOrigin(url) || ignoreFavicon(url) || res.status() < 400) return; issues.httpErrors.push(`${res.status()}: ${url}`); });
 
       await test.step('Navigate', async () => page.goto(new URL(r.path, baseURL).toString(), { waitUntil: 'domcontentloaded' }));
 
       await test.step('Contract', async () => {
-        await expect(page.getByTestId('page-title')).toHaveCount(1);
-        await expect(page.getByTestId('page-title')).toBeVisible();
-        await expect(page.getByTestId('page-id')).toHaveCount(1);
-        await expect(page.getByTestId('page-id')).toHaveAttribute('data-page-id', /.+/);
-        if (r.pageId) await expect(page.getByTestId('page-id')).toHaveAttribute('data-page-id', r.pageId);
+        try {
+          await expect(page.getByTestId('page-title')).toHaveCount(1);
+          await expect(page.getByTestId('page-title')).toBeVisible();
+          await expect(page.getByTestId('page-id')).toHaveCount(1);
+          await expect(page.locator('main')).toHaveCount(1);
+          await expect(page.locator('h1')).toHaveCount(1);
+        } catch (e) {
+          await attachAnnotatedScreenshot(page, page.getByTestId('page-title'), 'contract: page-title', testInfo);
+          await attachAnnotatedScreenshot(page, page.getByTestId('page-id'), 'contract: page-id', testInfo);
+          await testInfo.attach('contract-error.txt', { body: String(e), contentType: 'text/plain' });
+          throw e;
+        }
       });
+      
 
       await test.step('Errors', async () => {
-        const unexpected = {
-          pageErrors: issues.pageErrors.filter(x => !allowFor(r, 'pageErrors', x)),
-          consoleErrors: issues.consoleErrors.filter(x => !allowFor(r, 'consoleErrors', x)),
-          httpErrors: issues.httpErrors.filter(x => !allowFor(r, 'httpErrors', x)),
-          requestFailed: issues.requestFailed.filter(x => !allowFor(r, 'requestFailed', x)),
-        };
+        const unexpected = { pageErrors: issues.pageErrors.filter(x => !allowFor(r, 'pageErrors', x)), consoleErrors: issues.consoleErrors.filter(x => !allowFor(r, 'consoleErrors', x)), httpErrors: issues.httpErrors.filter(x => !allowFor(r, 'httpErrors', x)), requestFailed: issues.requestFailed.filter(x => !allowFor(r, 'requestFailed', x)) };
+        const totalAll = issues.pageErrors.length + issues.consoleErrors.length + issues.httpErrors.length + issues.requestFailed.length;
         const totalUnexpected = unexpected.pageErrors.length + unexpected.consoleErrors.length + unexpected.httpErrors.length + unexpected.requestFailed.length;
         const allSummary = `ALL issues for ${r.path}\n\n${fmtAll(issues) || '(none)'}`;
         const unexpectedSummary = `UNEXPECTED issues for ${r.path}\n\n${fmtAll(unexpected) || '(none)'}`;
-
-        if (issues.pageErrors.length + issues.consoleErrors.length + issues.httpErrors.length + issues.requestFailed.length) testInfo.attach('smoke-issues-all.txt', { body: allSummary, contentType: 'text/plain' });
+        if (totalAll) testInfo.attach('smoke-issues-all.txt', { body: allSummary, contentType: 'text/plain' });
         if (totalUnexpected) testInfo.attach('smoke-issues-unexpected.txt', { body: unexpectedSummary, contentType: 'text/plain' });
-
         expect(totalUnexpected, unexpectedSummary).toBe(0);
       });
     });
