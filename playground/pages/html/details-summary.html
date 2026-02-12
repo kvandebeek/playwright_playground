@@ -1,5 +1,6 @@
 <!doctype html>
 <html lang="en">
+
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
@@ -28,11 +29,13 @@
       <p data-testid="details-2-content">Expanded content 2.</p>
     </details>
 
-    <button id="toggle1" data-testid="toggle-details-1" type="button" aria-controls="details1" aria-pressed="false">Toggle first</button>
+    <button id="toggle1" data-testid="toggle-details-1" type="button" aria-controls="details1"
+      aria-pressed="false">Toggle first</button>
   </main>
 
   <script>
-    (()=>{const d1=document.getElementById("details1"),d2=document.getElementById("details2"),btn=document.getElementById("toggle1");const sync=(d)=>d.dataset.open=String(d.open);const syncBtn=()=>btn.setAttribute("aria-pressed",String(d1.open));sync(d1);sync(d2);syncBtn();d1.addEventListener("toggle",()=>{sync(d1);syncBtn();});d2.addEventListener("toggle",()=>sync(d2));btn.addEventListener("click",()=>{d1.open=!d1.open;});})();
+    (() => { const d1 = document.getElementById("details1"), d2 = document.getElementById("details2"), btn = document.getElementById("toggle1"); const sync = (d) => d.dataset.open = String(d.open); const syncBtn = () => btn.setAttribute("aria-pressed", String(d1.open)); sync(d1); sync(d2); syncBtn(); d1.addEventListener("toggle", () => { sync(d1); syncBtn(); }); d2.addEventListener("toggle", () => sync(d2)); btn.addEventListener("click", () => { d1.open = !d1.open; }); })();
   </script>
 </body>
+
 </html>

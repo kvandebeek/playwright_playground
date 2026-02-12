@@ -1,5 +1,6 @@
 <!doctype html>
 <html lang="en">
+
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
@@ -21,45 +22,65 @@
     <form data-testid="form-inputs" id="f" novalidate>
       <label for="t">Text</label><input data-testid="input-text" id="t" name="t" type="text" placeholder="hello" />
 
-      <label for="p">Password</label><input data-testid="input-password" id="p" name="p" type="password" value="secret" />
+      <label for="p">Password</label><input data-testid="input-password" id="p" name="p" type="password"
+        value="secret" />
 
       <label for="e">Email</label><input data-testid="input-email" id="e" name="e" type="email" placeholder="a@b.com" />
 
-      <label for="n">Number</label><input data-testid="input-number" id="n" name="n" type="number" min="1" max="10" step="1" value="3" />
+      <label for="n">Number</label><input data-testid="input-number" id="n" name="n" type="number" min="1" max="10"
+        step="1" value="3" />
 
-      <label for="r">Range</label><input data-testid="input-range" id="r" name="r" type="range" min="0" max="100" value="40" />
+      <label for="r">Range</label><input data-testid="input-range" id="r" name="r" type="range" min="0" max="100"
+        value="40" />
 
       <label for="d">Date</label><input data-testid="input-date" id="d" name="d" type="date" />
 
       <label for="ti">Time</label><input data-testid="input-time" id="ti" name="ti" type="time" />
 
-      <label for="dt">Datetime-local</label><input data-testid="input-datetime" id="dt" name="dt" type="datetime-local" />
+      <label for="dt">Datetime-local</label><input data-testid="input-datetime" id="dt" name="dt"
+        type="datetime-local" />
 
       <label for="c">Color</label><input data-testid="input-color" id="c" name="c" type="color" value="#336699" />
 
-      <label for="s">Search</label><input data-testid="input-search" id="s" name="s" type="search" placeholder="search…" />
+      <label for="s">Search</label><input data-testid="input-search" id="s" name="s" type="search"
+        placeholder="search…" />
 
       <label for="tel">Tel</label><input data-testid="input-tel" id="tel" name="tel" type="tel" placeholder="+32..." />
 
-      <label for="u">URL</label><input data-testid="input-url" id="u" name="u" type="url" placeholder="https://example.com" />
+      <label for="u">URL</label><input data-testid="input-url" id="u" name="u" type="url"
+        placeholder="https://example.com" />
 
       <label for="ta">Textarea</label><textarea data-testid="textarea" id="ta" name="ta" rows="3">Line 1
 Line 2</textarea>
 
       <label for="sel">Select</label>
       <select data-testid="select" id="sel" name="sel">
-        <optgroup label="Group A"><option value="a1">A1</option><option value="a2">A2</option></optgroup>
-        <optgroup label="Group B"><option value="b1">B1</option><option value="b2">B2</option></optgroup>
+        <optgroup label="Group A">
+          <option value="a1">A1</option>
+          <option value="a2">A2</option>
+        </optgroup>
+        <optgroup label="Group B">
+          <option value="b1">B1</option>
+          <option value="b2">B2</option>
+        </optgroup>
       </select>
 
       <label for="msel">Multi-select</label>
       <select data-testid="multiselect" id="msel" name="msel" multiple size="4">
-        <option value="m1">M1</option><option value="m2">M2</option><option value="m3">M3</option><option value="m4">M4</option>
+        <option value="m1">M1</option>
+        <option value="m2">M2</option>
+        <option value="m3">M3</option>
+        <option value="m4">M4</option>
       </select>
 
       <label for="dl">Datalist</label>
       <input data-testid="input-datalist" id="dl" name="dl" list="cities" placeholder="Start typing…" />
-      <datalist id="cities"><option value="Antwerp"></option><option value="Brussels"></option><option value="Ghent"></option><option value="Leuven"></option></datalist>
+      <datalist id="cities">
+        <option value="Antwerp"></option>
+        <option value="Brussels"></option>
+        <option value="Ghent"></option>
+        <option value="Leuven"></option>
+      </datalist>
 
       <label for="fup">File</label><input data-testid="input-file" id="fup" name="fup" type="file" multiple />
 
@@ -79,12 +100,14 @@ Line 2</textarea>
         <button id="toggleReadonly" data-testid="btn-readonly" type="button">Toggle readonly text</button>
       </div>
 
-      <output data-testid="form-output" id="formOut" name="formOut" aria-live="polite" style="grid-column:1 / -1"></output>
+      <output data-testid="form-output" id="formOut" name="formOut" aria-live="polite"
+        style="grid-column:1 / -1"></output>
     </form>
   </main>
 
   <script>
-    (()=>{const f=document.getElementById("f"),out=document.getElementById("formOut"),toggle=document.getElementById("toggleReadonly"),t=document.getElementById("t");const render=()=>{const fd=new FormData(f);out.textContent=[...fd.entries()].map(([k,v])=>`${k}=${v instanceof File?v.name:v}`).join(" | ");};f.addEventListener("submit",e=>{e.preventDefault();render();});f.addEventListener("reset",()=>{out.textContent="";});toggle.addEventListener("click",()=>{t.readOnly=!t.readOnly;toggle.setAttribute("aria-pressed",String(t.readOnly));});toggle.setAttribute("aria-pressed","false");})();
+    (() => { const f = document.getElementById("f"), out = document.getElementById("formOut"), toggle = document.getElementById("toggleReadonly"), t = document.getElementById("t"); const render = () => { const fd = new FormData(f); out.textContent = [...fd.entries()].map(([k, v]) => `${k}=${v instanceof File ? v.name : v}`).join(" | "); }; f.addEventListener("submit", e => { e.preventDefault(); render(); }); f.addEventListener("reset", () => { out.textContent = ""; }); toggle.addEventListener("click", () => { t.readOnly = !t.readOnly; toggle.setAttribute("aria-pressed", String(t.readOnly)); }); toggle.setAttribute("aria-pressed", "false"); })();
   </script>
 </body>
+
 </html>

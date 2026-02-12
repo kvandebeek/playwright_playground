@@ -1,5 +1,6 @@
 <!doctype html>
 <html lang="en">
+
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
@@ -42,10 +43,26 @@
       </thead>
 
       <tbody data-testid="tbody">
-        <tr data-testid="row-1" data-idx="1" data-visible="true"><td>Alice</td><td>Antwerp</td><td>29</td></tr>
-        <tr data-testid="row-2" data-idx="2" data-visible="true"><td>Bob</td><td>Brussels</td><td>41</td></tr>
-        <tr data-testid="row-3" data-idx="3" data-visible="true"><td>Charlie</td><td>Ghent</td><td>33</td></tr>
-        <tr data-testid="row-4" data-idx="4" data-visible="true"><td>Dana</td><td>Leuven</td><td>25</td></tr>
+        <tr data-testid="row-1" data-idx="1" data-visible="true">
+          <td>Alice</td>
+          <td>Antwerp</td>
+          <td>29</td>
+        </tr>
+        <tr data-testid="row-2" data-idx="2" data-visible="true">
+          <td>Bob</td>
+          <td>Brussels</td>
+          <td>41</td>
+        </tr>
+        <tr data-testid="row-3" data-idx="3" data-visible="true">
+          <td>Charlie</td>
+          <td>Ghent</td>
+          <td>33</td>
+        </tr>
+        <tr data-testid="row-4" data-idx="4" data-visible="true">
+          <td>Dana</td>
+          <td>Leuven</td>
+          <td>25</td>
+        </tr>
       </tbody>
 
       <tfoot>
@@ -57,7 +74,8 @@
   </main>
 
   <script>
-    (()=>{const tbl=document.getElementById("tbl"),tbody=tbl.querySelector("tbody"),filter=document.getElementById("filter"),btnName=document.getElementById("sortName"),btnAge=document.getElementById("sortAge");const rows=()=>[...tbody.querySelectorAll("tr")];const rowText=r=>r.textContent.toLowerCase();const applyFilter=()=>{const v=(filter.value||"").toLowerCase();tbl.dataset.filter=v;rows().forEach(r=>{const ok=rowText(r).includes(v);r.style.display=ok?"table-row":"none";r.dataset.visible=String(ok);});};const setSort=(key)=>{const cur=tbl.dataset.sort,dir=tbl.dataset.sortDir;tbl.dataset.sort=key;tbl.dataset.sortDir=(cur===key&&dir==="asc")?"desc":"asc";};const sortBy=(idx,num,key)=>{setSort(key);const dir=tbl.dataset.sortDir==="asc"?1:-1;rows().sort((a,b)=>{const va=a.children[idx].textContent.trim(),vb=b.children[idx].textContent.trim();const cmp=(num?(Number(va)-Number(vb)):va.localeCompare(vb));return cmp!==0?cmp*dir:(Number(a.dataset.idx)-Number(b.dataset.idx));}).forEach(r=>tbody.appendChild(r));};btnName.addEventListener("click",()=>sortBy(0,false,"name"));btnAge.addEventListener("click",()=>sortBy(2,true,"age"));filter.addEventListener("input",applyFilter);applyFilter();})();
+    (() => { const tbl = document.getElementById("tbl"), tbody = tbl.querySelector("tbody"), filter = document.getElementById("filter"), btnName = document.getElementById("sortName"), btnAge = document.getElementById("sortAge"); const rows = () => [...tbody.querySelectorAll("tr")]; const rowText = r => r.textContent.toLowerCase(); const applyFilter = () => { const v = (filter.value || "").toLowerCase(); tbl.dataset.filter = v; rows().forEach(r => { const ok = rowText(r).includes(v); r.style.display = ok ? "table-row" : "none"; r.dataset.visible = String(ok); }); }; const setSort = (key) => { const cur = tbl.dataset.sort, dir = tbl.dataset.sortDir; tbl.dataset.sort = key; tbl.dataset.sortDir = (cur === key && dir === "asc") ? "desc" : "asc"; }; const sortBy = (idx, num, key) => { setSort(key); const dir = tbl.dataset.sortDir === "asc" ? 1 : -1; rows().sort((a, b) => { const va = a.children[idx].textContent.trim(), vb = b.children[idx].textContent.trim(); const cmp = (num ? (Number(va) - Number(vb)) : va.localeCompare(vb)); return cmp !== 0 ? cmp * dir : (Number(a.dataset.idx) - Number(b.dataset.idx)); }).forEach(r => tbody.appendChild(r)); }; btnName.addEventListener("click", () => sortBy(0, false, "name")); btnAge.addEventListener("click", () => sortBy(2, true, "age")); filter.addEventListener("input", applyFilter); applyFilter(); })();
   </script>
 </body>
+
 </html>

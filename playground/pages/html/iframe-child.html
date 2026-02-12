@@ -1,5 +1,6 @@
 <!doctype html>
 <html lang="en" data-ready="false">
+
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
@@ -17,7 +18,8 @@
   </main>
 
   <script>
-    (()=>{const s=document.querySelector("[data-testid='child-status']");const allowedOrigin=new URLSearchParams(location.search).get("parentOrigin")||location.origin;window.addEventListener("message",(e)=>{if(e.source!==window.parent||e.origin!==allowedOrigin) return;const d=e.data; if(d&&d.type==="ping"){s.textContent="received ping";s.dataset.status="ping";window.parent.postMessage({type:"pong",payload:"ok"},allowedOrigin);}});document.documentElement.dataset.ready="true";})();
+    (() => { const s = document.querySelector("[data-testid='child-status']"); const allowedOrigin = new URLSearchParams(location.search).get("parentOrigin") || location.origin; window.addEventListener("message", (e) => { if (e.source !== window.parent || e.origin !== allowedOrigin) return; const d = e.data; if (d && d.type === "ping") { s.textContent = "received ping"; s.dataset.status = "ping"; window.parent.postMessage({ type: "pong", payload: "ok" }, allowedOrigin); } }); document.documentElement.dataset.ready = "true"; })();
   </script>
 </body>
+
 </html>

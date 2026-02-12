@@ -1,64 +1,114 @@
 @import url('https://fonts.googleapis.com/css2?family=Roboto+Condensed:wght@300;400;600;700&family=Roboto+Mono:wght@400;600&display=swap');
 
-:root{
-  --bg:oklch(14% .02 250);
-  --panel:oklch(18% .02 250);
-  --panel2:oklch(21% .02 250);
-  --text:oklch(92% .01 250);
-  --muted:oklch(74% .02 250);
+:root {
+  --bg: oklch(14% .02 250);
+  --panel: oklch(18% .02 250);
+  --panel2: oklch(21% .02 250);
+  --text: oklch(92% .01 250);
+  --muted: oklch(74% .02 250);
 
-  --brand:oklch(72% .16 250);
-  --danger:oklch(64% .2 25);
-  --ok:oklch(70% .18 140);
-  --warn:oklch(78% .18 95);
+  --brand: oklch(72% .16 250);
+  --danger: oklch(64% .2 25);
+  --ok: oklch(70% .18 140);
+  --warn: oklch(78% .18 95);
 
-  --border:color-mix(in oklch, var(--text) 12%, transparent);
-  --ring:color-mix(in oklch, var(--brand) 55%, transparent);
+  --border: color-mix(in oklch, var(--text) 12%, transparent);
+  --ring: color-mix(in oklch, var(--brand) 55%, transparent);
 
-  --r:16px;
-  --r2:22px;
+  --r: 16px;
+  --r2: 22px;
 
-  --s0:.25rem; --s1:.5rem; --s2:1rem; --s3:1.5rem; --s4:2.25rem;
+  --s0: .25rem;
+  --s1: .5rem;
+  --s2: 1rem;
+  --s3: 1.5rem;
+  --s4: 2.25rem;
 
-  --shadow:0 1px 0 rgba(255,255,255,.05) inset, 0 22px 70px rgba(0,0,0,.55);
+  --shadow: 0 1px 0 rgba(255, 255, 255, .05) inset, 0 22px 70px rgba(0, 0, 0, .55);
 
-  --mono:"Roboto Mono", ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
-  --sans:"Roboto Condensed", ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, Helvetica, Arial;
+  --mono: "Roboto Mono", ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+  --sans: "Roboto Condensed", ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, Helvetica, Arial;
 }
 
-*{box-sizing:border-box}
-html,body{height:100%}
-body{
-  margin:50px;
+* {
+  box-sizing: border-box
+}
+
+html,
+body {
+  height: 100%
+}
+
+body {
+  margin: 50px;
   padding: 50px;
-  font-family:var(--sans);
-  letter-spacing:.3px;
-  color:var(--text);
+  font-family: var(--sans);
+  letter-spacing: .3px;
+  color: var(--text);
   background:
     radial-gradient(1200px 700px at 12% -10%, color-mix(in oklch, var(--brand) 18%, transparent), transparent 55%),
     radial-gradient(900px 600px at 95% 0%, color-mix(in oklch, var(--danger) 12%, transparent), transparent 60%),
     linear-gradient(180deg, color-mix(in oklch, var(--bg) 92%, black), var(--bg));
-  overflow-y:scroll;
+  overflow-y: scroll;
 }
 
-p{line-height:1.45}
-a{color:inherit; text-decoration:none}
-a:hover{text-decoration:underline}
-code,kbd,pre{font-family:var(--mono)}
-::selection{background:color-mix(in oklch, var(--brand) 40%, transparent)}
+p {
+  line-height: 1.45
+}
 
-:focus-visible{outline:none; box-shadow:0 0 0 4px var(--ring)}
-@media (prefers-reduced-motion:reduce){*,*::before,*::after{animation:none!important; transition:none!important; scroll-behavior:auto!important}}
-@media (prefers-contrast:more){:root{--border:color-mix(in oklch, var(--text) 28%, transparent)}}
+a {
+  color: inherit;
+  text-decoration: none
+}
 
-[data-elevate]{position:relative; isolation:isolate}
-[data-elevate]::before{
-  content:"";
-  position:absolute;
-  inset:-1px;
-  border-radius:calc(var(--r) + 2px);
-  background:linear-gradient(135deg, color-mix(in oklch, var(--brand) 42%, transparent), transparent 60%);
-  opacity:.18;
-  z-index:-1;
-  filter:blur(14px);
+a:hover {
+  text-decoration: underline
+}
+
+code,
+kbd,
+pre {
+  font-family: var(--mono)
+}
+
+::selection {
+  background: color-mix(in oklch, var(--brand) 40%, transparent)
+}
+
+:focus-visible {
+  outline: none;
+  box-shadow: 0 0 0 4px var(--ring)
+}
+
+@media (prefers-reduced-motion:reduce) {
+
+  *,
+  *::before,
+  *::after {
+    animation: none !important;
+    transition: none !important;
+    scroll-behavior: auto !important
+  }
+}
+
+@media (prefers-contrast:more) {
+  :root {
+    --border: color-mix(in oklch, var(--text) 28%, transparent)
+  }
+}
+
+[data-elevate] {
+  position: relative;
+  isolation: isolate
+}
+
+[data-elevate]::before {
+  content: "";
+  position: absolute;
+  inset: -1px;
+  border-radius: calc(var(--r) + 2px);
+  background: linear-gradient(135deg, color-mix(in oklch, var(--brand) 42%, transparent), transparent 60%);
+  opacity: .18;
+  z-index: -1;
+  filter: blur(14px);
 }

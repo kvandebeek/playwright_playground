@@ -1,5 +1,6 @@
 <!doctype html>
 <html lang="en" data-hash="">
+
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
@@ -26,12 +27,14 @@
 
     <section>
       <h2>New tab</h2>
-      <a data-testid="link-blank" href="./lists.html" target="_blank" rel="noopener noreferrer">Open lists.html in new tab</a>
+      <a data-testid="link-blank" href="./lists.html" target="_blank" rel="noopener noreferrer">Open lists.html in new
+        tab</a>
     </section>
 
     <section>
       <h2>Download</h2>
-      <a data-testid="link-download" href="data:text/plain;charset=utf-8,Hello%20download" download="hello.txt">Download a text file</a>
+      <a data-testid="link-download" href="data:text/plain;charset=utf-8,Hello%20download" download="hello.txt">Download
+        a text file</a>
     </section>
 
     <section>
@@ -47,7 +50,8 @@
   </main>
 
   <script>
-    (()=>{const html=document.documentElement,clear=document.querySelector("[data-testid='clear-hash']");const sync=()=>html.dataset.hash=location.hash||"";window.addEventListener("hashchange",sync);sync();clear.addEventListener("click",(e)=>{e.preventDefault();history.replaceState(null,"",location.pathname+location.search);sync();document.getElementById("top").scrollIntoView({block:"start"});});})();
+    (() => { const html = document.documentElement, clear = document.querySelector("[data-testid='clear-hash']"); const sync = () => html.dataset.hash = location.hash || ""; window.addEventListener("hashchange", sync); sync(); clear.addEventListener("click", (e) => { e.preventDefault(); history.replaceState(null, "", location.pathname + location.search); sync(); document.getElementById("top").scrollIntoView({ block: "start" }); }); })();
   </script>
 </body>
+
 </html>

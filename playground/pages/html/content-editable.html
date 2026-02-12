@@ -1,5 +1,6 @@
 <!doctype html>
 <html lang="en">
+
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
@@ -21,17 +22,8 @@
     <section class="box" aria-labelledby="editable-title">
       <h2 id="editable-title">Editable region</h2>
 
-      <div
-        id="editable"
-        data-testid="editable"
-        class="edit"
-        contenteditable="true"
-        role="textbox"
-        aria-multiline="true"
-        aria-labelledby="editable-title"
-        spellcheck="false"
-        tabindex="0"
-      >
+      <div id="editable" data-testid="editable" class="edit" contenteditable="true" role="textbox" aria-multiline="true"
+        aria-labelledby="editable-title" spellcheck="false" tabindex="0">
         Edit this text. <b>Bold</b> is allowed.
       </div>
 
@@ -40,17 +32,13 @@
         <button id="btnClear" data-testid="btn-clear" type="button">Clear</button>
       </p>
 
-      <pre
-        id="editableOutput"
-        data-testid="editable-output"
-        class="edit"
-        style="white-space:pre-wrap"
-      ></pre>
+      <pre id="editableOutput" data-testid="editable-output" class="edit" style="white-space:pre-wrap"></pre>
     </section>
   </main>
 
   <script>
-    (()=>{const ed=document.getElementById("editable"),out=document.getElementById("editableOutput"),btnRead=document.getElementById("btnRead"),btnClear=document.getElementById("btnClear");btnRead.addEventListener("click",()=>{out.textContent=ed.innerHTML;});btnClear.addEventListener("click",()=>{ed.innerHTML="";out.textContent="";});})();
+    (() => { const ed = document.getElementById("editable"), out = document.getElementById("editableOutput"), btnRead = document.getElementById("btnRead"), btnClear = document.getElementById("btnClear"); btnRead.addEventListener("click", () => { out.textContent = ed.innerHTML; }); btnClear.addEventListener("click", () => { ed.innerHTML = ""; out.textContent = ""; }); })();
   </script>
 </body>
+
 </html>

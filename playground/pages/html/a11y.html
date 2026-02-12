@@ -1,5 +1,6 @@
 <!doctype html>
 <html lang="en">
+
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
@@ -26,7 +27,8 @@
   <main id="main" data-testid="main">
     <section class="card" aria-labelledby="aria-toggle-title">
       <h2 id="aria-toggle-title">ARIA toggle</h2>
-      <button data-testid="aria-toggle" id="tog" type="button" aria-expanded="false" aria-controls="panel">Toggle panel</button>
+      <button data-testid="aria-toggle" id="tog" type="button" aria-expanded="false" aria-controls="panel">Toggle
+        panel</button>
       <div id="panel" data-testid="aria-panel" hidden>Panel content</div>
     </section>
 
@@ -38,18 +40,21 @@
 
     <section class="card" aria-labelledby="tab-order-title">
       <h2 id="tab-order-title">Tab order</h2>
-      <button data-testid="tab-1" id="fakeLink" type="button" aria-label="Focusable link (button)">Focusable link</button>
+      <button data-testid="tab-1" id="fakeLink" type="button" aria-label="Focusable link (button)">Focusable
+        link</button>
       <button data-testid="tab-2" type="button">Button</button>
       <label>
         <span class="sr-only">Input</span>
         <input data-testid="tab-3" placeholder="Input" />
       </label>
-      <div data-testid="tab-4" tabindex="0" style="display:inline-block;padding:6px 10px;border:1px dashed #999;border-radius:10px">tabindex=0 div</div>
+      <div data-testid="tab-4" tabindex="0"
+        style="display:inline-block;padding:6px 10px;border:1px dashed #999;border-radius:10px">tabindex=0 div</div>
     </section>
   </main>
 
   <script>
-    (()=>{const tog=document.getElementById("tog"), panel=document.getElementById("panel"), live=document.getElementById("live"), liveBtn=document.getElementById("liveBtn");tog.addEventListener("click", ()=>{const next=tog.getAttribute("aria-expanded")!=="true";tog.setAttribute("aria-expanded", String(next));panel.hidden=!next;});liveBtn.addEventListener("click", ()=>{const t=new Date();live.textContent=`Updated at ${t.toLocaleTimeString()}`;});})();
+    (() => { const tog = document.getElementById("tog"), panel = document.getElementById("panel"), live = document.getElementById("live"), liveBtn = document.getElementById("liveBtn"); tog.addEventListener("click", () => { const next = tog.getAttribute("aria-expanded") !== "true"; tog.setAttribute("aria-expanded", String(next)); panel.hidden = !next; }); liveBtn.addEventListener("click", () => { const t = new Date(); live.textContent = `Updated at ${t.toLocaleTimeString()}`; }); })();
   </script>
 </body>
+
 </html>

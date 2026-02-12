@@ -1,5 +1,6 @@
 <!doctype html>
 <html lang="en">
+
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
@@ -29,18 +30,13 @@
     <section class="box" aria-labelledby="video-title">
       <h2 id="video-title">Video (no source)</h2>
       <video data-testid="video" controls preload="none" playsinline muted width="420" height="236">
-        <track
-          data-testid="track"
-          kind="captions"
-          srclang="en"
-          label="English"
-          default
-          src="data:text/vtt,WEBVTT%0A%0A00:00.000%20--%3E%2000:01.000%0A"
-        />
+        <track data-testid="track" kind="captions" srclang="en" label="English" default
+          src="data:text/vtt,WEBVTT%0A%0A00:00.000%20--%3E%2000:01.000%0A" />
         Your browser does not support video.
       </video>
       <p data-testid="video-note">No source on purpose; tests can still interact with controls.</p>
     </section>
   </main>
 </body>
+
 </html>

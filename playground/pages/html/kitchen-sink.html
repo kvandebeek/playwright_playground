@@ -1,5 +1,6 @@
 <!doctype html>
 <html lang="en">
+
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -30,7 +31,8 @@
 
     <header class="container" style="padding-top: var(--s3);">
       <h1 data-testid="page-title" style="margin:0;">Catalog</h1>
-      <div data-testid="page-id" data-page-id="catalog" style="margin-top: var(--s1); color: var(--muted);"><code>catalog</code></div>
+      <div data-testid="page-id" data-page-id="catalog" style="margin-top: var(--s1); color: var(--muted);">
+        <code>catalog</code></div>
     </header>
 
     <main id="main" class="main container" data-testid="main" data-testid-page="page-dashboard">
@@ -49,7 +51,8 @@
                   <span class="badge" data-tone="ok">+12%</span>
                 </div>
                 <div class="card__bd">
-                  <div style="font-size: 2rem; font-weight: 700; letter-spacing: .5px;" data-testid="metric-value">248</div>
+                  <div style="font-size: 2rem; font-weight: 700; letter-spacing: .5px;" data-testid="metric-value">248
+                  </div>
                   <div style="color: var(--muted);" data-testid="metric-subtitle">Last 24 hours</div>
                   <div style="margin-top: var(--s2); display:flex; gap: var(--s1); flex-wrap: wrap;">
                     <button class="btn" data-testid="btn" data-variant="primary" type="button">View</button>
@@ -64,7 +67,8 @@
                   <span class="badge" data-tone="warn">Needs triage</span>
                 </div>
                 <div class="card__bd">
-                  <div style="font-size: 2rem; font-weight: 700; letter-spacing: .5px;" data-testid="metric-value">37</div>
+                  <div style="font-size: 2rem; font-weight: 700; letter-spacing: .5px;" data-testid="metric-value">37
+                  </div>
                   <div style="color: var(--muted);" data-testid="metric-subtitle">Open, unassigned</div>
                   <div style="margin-top: var(--s2); display:flex; gap: var(--s1); flex-wrap: wrap;">
                     <button class="btn" data-testid="btn" data-variant="primary" type="button">Assign</button>
@@ -79,7 +83,8 @@
                   <span class="badge" data-tone="danger">Escalated</span>
                 </div>
                 <div class="card__bd">
-                  <div style="font-size: 2rem; font-weight: 700; letter-spacing: .5px;" data-testid="metric-value">3</div>
+                  <div style="font-size: 2rem; font-weight: 700; letter-spacing: .5px;" data-testid="metric-value">3
+                  </div>
                   <div style="color: var(--muted);" data-testid="metric-subtitle">Active right now</div>
                   <div style="margin-top: var(--s2); display:flex; gap: var(--s1); flex-wrap: wrap;">
                     <button class="btn" data-testid="btn" data-variant="danger" type="button">Acknowledge</button>
@@ -102,7 +107,8 @@
               <div class="grid" style="gap: var(--s2);">
                 <div class="field">
                   <label class="label" for="q">Search</label>
-                  <input class="input" id="q" data-testid="search-input" placeholder="Search orders, tickets, incidents..." />
+                  <input class="input" id="q" data-testid="search-input"
+                    placeholder="Search orders, tickets, incidents..." />
                 </div>
 
                 <div class="grid grid--2">
@@ -141,7 +147,8 @@
                     <div class="grid grid--2">
                       <div class="field">
                         <label class="label" for="email">Email</label>
-                        <input class="input" id="email" data-testid="email-input" placeholder="name@company.com" aria-invalid="true" />
+                        <input class="input" id="email" data-testid="email-input" placeholder="name@company.com"
+                          aria-invalid="true" />
                       </div>
                       <div class="field">
                         <label class="label" for="code">Code</label>
@@ -238,7 +245,8 @@
                       <td>New order created</td>
                       <td><span class="badge">Open</span></td>
                       <td>Team A</td>
-                      <td><button class="btn" data-testid="btn" type="button">View</button> <button class="btn" data-testid="btn" type="button">Export</button></td>
+                      <td><button class="btn" data-testid="btn" type="button">View</button> <button class="btn"
+                          data-testid="btn" type="button">Export</button></td>
                     </tr>
                     <!-- rest unchanged -->
                   </tbody>
@@ -246,7 +254,8 @@
               </div>
             </div>
 
-            <div style="margin-top: var(--s2); display:flex; gap: var(--s1); flex-wrap: wrap; justify-content:flex-end;">
+            <div
+              style="margin-top: var(--s2); display:flex; gap: var(--s1); flex-wrap: wrap; justify-content:flex-end;">
               <button class="btn" data-testid="pager-prev" type="button">Previous</button>
               <button class="btn" data-testid="pager-next" data-variant="primary" type="button">Next</button>
             </div>
@@ -266,4 +275,5 @@
 
   <script src="../scripts/dashboard.js"></script>
 </body>
+
 </html>

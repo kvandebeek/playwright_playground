@@ -1,5 +1,6 @@
 <!doctype html>
 <html lang="en">
+
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
@@ -23,14 +24,8 @@
       <button id="openNonModal" data-testid="open-nonmodal" type="button">Open non-modal dialog</button>
     </div>
 
-    <dialog
-      data-testid="dialog"
-      id="dlg"
-      aria-labelledby="dlgTitle"
-      aria-describedby="dlgText"
-      data-open="false"
-      data-mode="none"
-    >
+    <dialog data-testid="dialog" id="dlg" aria-labelledby="dlgTitle" aria-describedby="dlgText" data-open="false"
+      data-mode="none">
       <form method="dialog" data-testid="dialog-form">
         <h2 id="dlgTitle" data-testid="dialog-title">Confirm action</h2>
         <p id="dlgText" data-testid="dialog-text">Choose OK or Cancel.</p>
@@ -45,7 +40,8 @@
   </main>
 
   <script>
-    (()=>{const dlg=document.getElementById("dlg"),res=document.querySelector("[data-testid='dialog-result']"),openModal=document.getElementById("openModal"),openNonModal=document.getElementById("openNonModal"),btnOk=document.getElementById("btnOk");let lastOpener=null;const hasDialog=!!(window.HTMLDialogElement&&dlg.showModal);const sync=()=>dlg.dataset.open=String(!!dlg.open);const setMode=(m)=>dlg.dataset.mode=m;const open=(mode)=>{lastOpener=(mode==="modal"?openModal:openNonModal);setMode(mode);if(hasDialog){mode==="modal"?dlg.showModal():dlg.show();}else{dlg.setAttribute("open","");dlg.open=true;dlg.setAttribute("aria-hidden","false");}sync();btnOk.focus();};const closeFallback=(val)=>{dlg.returnValue=val||dlg.returnValue||"";dlg.removeAttribute("open");dlg.open=false;dlg.setAttribute("aria-hidden","true");dlg.dispatchEvent(new Event("close"));};openModal.addEventListener("click",()=>open("modal"));openNonModal.addEventListener("click",()=>open("nonmodal"));dlg.addEventListener("close",()=>{sync();res.textContent=`result: ${dlg.returnValue||"(none)"}`;if(lastOpener) lastOpener.focus();setMode("none");});if(!hasDialog){dlg.addEventListener("click",(e)=>{const r=dlg.getBoundingClientRect();const inBox=e.clientX>=r.left&&e.clientX<=r.right&&e.clientY>=r.top&&e.clientY<=r.bottom;if(!inBox) closeFallback("cancel");});dlg.addEventListener("cancel",(e)=>{e.preventDefault();closeFallback("cancel");});dlg.querySelectorAll("button[value]").forEach(b=>b.addEventListener("click",()=>closeFallback(b.value)));}sync();})();
+    (() => { const dlg = document.getElementById("dlg"), res = document.querySelector("[data-testid='dialog-result']"), openModal = document.getElementById("openModal"), openNonModal = document.getElementById("openNonModal"), btnOk = document.getElementById("btnOk"); let lastOpener = null; const hasDialog = !!(window.HTMLDialogElement && dlg.showModal); const sync = () => dlg.dataset.open = String(!!dlg.open); const setMode = (m) => dlg.dataset.mode = m; const open = (mode) => { lastOpener = (mode === "modal" ? openModal : openNonModal); setMode(mode); if (hasDialog) { mode === "modal" ? dlg.showModal() : dlg.show(); } else { dlg.setAttribute("open", ""); dlg.open = true; dlg.setAttribute("aria-hidden", "false"); } sync(); btnOk.focus(); }; const closeFallback = (val) => { dlg.returnValue = val || dlg.returnValue || ""; dlg.removeAttribute("open"); dlg.open = false; dlg.setAttribute("aria-hidden", "true"); dlg.dispatchEvent(new Event("close")); }; openModal.addEventListener("click", () => open("modal")); openNonModal.addEventListener("click", () => open("nonmodal")); dlg.addEventListener("close", () => { sync(); res.textContent = `result: ${dlg.returnValue || "(none)"}`; if (lastOpener) lastOpener.focus(); setMode("none"); }); if (!hasDialog) { dlg.addEventListener("click", (e) => { const r = dlg.getBoundingClientRect(); const inBox = e.clientX >= r.left && e.clientX <= r.right && e.clientY >= r.top && e.clientY <= r.bottom; if (!inBox) closeFallback("cancel"); }); dlg.addEventListener("cancel", (e) => { e.preventDefault(); closeFallback("cancel"); }); dlg.querySelectorAll("button[value]").forEach(b => b.addEventListener("click", () => closeFallback(b.value))); } sync(); })();
   </script>
 </body>
+
 </html>

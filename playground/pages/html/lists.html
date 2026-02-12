@@ -1,5 +1,6 @@
 <!doctype html>
 <html lang="en">
+
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
@@ -51,7 +52,8 @@
   </main>
 
   <script>
-    (()=>{const setCount=(sel,attr)=>document.querySelectorAll(sel).forEach(l=>l.dataset[attr]=String(l.querySelectorAll(":scope > li").length));setCount("ul[data-testid]", "count");setCount("ol[data-testid]", "count");document.querySelectorAll("dl[data-testid]").forEach(dl=>dl.dataset.terms=String(dl.querySelectorAll(":scope > dt").length));})();
+    (() => { const setCount = (sel, attr) => document.querySelectorAll(sel).forEach(l => l.dataset[attr] = String(l.querySelectorAll(":scope > li").length)); setCount("ul[data-testid]", "count"); setCount("ol[data-testid]", "count"); document.querySelectorAll("dl[data-testid]").forEach(dl => dl.dataset.terms = String(dl.querySelectorAll(":scope > dt").length)); })();
   </script>
 </body>
+
 </html>

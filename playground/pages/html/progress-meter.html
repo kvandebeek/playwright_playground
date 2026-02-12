@@ -1,5 +1,6 @@
 <!doctype html>
 <html lang="en">
+
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
@@ -27,7 +28,8 @@
 
       <p>
         <span id="meterLabel">Meter:</span>
-        <meter data-testid="meter" id="met" min="0" max="100" low="30" high="70" optimum="80" value="55" aria-labelledby="meterLabel"></meter>
+        <meter data-testid="meter" id="met" min="0" max="100" low="30" high="70" optimum="80" value="55"
+          aria-labelledby="meterLabel"></meter>
         <span data-testid="meter-text" id="mt">55</span>
       </p>
 
@@ -37,7 +39,8 @@
   </main>
 
   <script>
-    (()=>{const box=document.querySelector("[data-testid='box']"),p=document.getElementById("prog"),m=document.getElementById("met"),pt=document.getElementById("pt"),mt=document.getElementById("mt"),inc=document.getElementById("btnInc"),dec=document.getElementById("btnDec");const sync=()=>{pt.textContent=String(p.value);mt.textContent=String(m.value);box.dataset.progress=String(p.value);box.dataset.meter=String(m.value);};inc.addEventListener("click",()=>{p.value=Math.min(100,Number(p.value)+10);m.value=Math.min(100,Number(m.value)+10);sync();});dec.addEventListener("click",()=>{p.value=Math.max(0,Number(p.value)-10);m.value=Math.max(0,Number(m.value)-10);sync();});sync();})();
+    (() => { const box = document.querySelector("[data-testid='box']"), p = document.getElementById("prog"), m = document.getElementById("met"), pt = document.getElementById("pt"), mt = document.getElementById("mt"), inc = document.getElementById("btnInc"), dec = document.getElementById("btnDec"); const sync = () => { pt.textContent = String(p.value); mt.textContent = String(m.value); box.dataset.progress = String(p.value); box.dataset.meter = String(m.value); }; inc.addEventListener("click", () => { p.value = Math.min(100, Number(p.value) + 10); m.value = Math.min(100, Number(m.value) + 10); sync(); }); dec.addEventListener("click", () => { p.value = Math.max(0, Number(p.value) - 10); m.value = Math.max(0, Number(m.value) - 10); sync(); }); sync(); })();
   </script>
 </body>
+
 </html>
