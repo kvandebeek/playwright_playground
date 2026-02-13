@@ -31,7 +31,7 @@ jobs:
           sudo apt-get install -y fonts-noto fonts-dejavu-core fonts-liberation
 
       - name: Run tests
-        run: npx playwright test
+        run: npx playwright test --update-snapshots
         env:
           CI: "true"
 
