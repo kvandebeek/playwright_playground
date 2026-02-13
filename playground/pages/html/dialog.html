@@ -18,7 +18,7 @@
     <div data-testid="page-id" data-page-id="dialog"></div>
   </header>
 
-  <main id="main" data-testid="main">
+  <main id="main" data-testid="main" tabindex="-1">
     <div class="row">
       <button id="openModal" data-testid="open-modal" type="button">Open modal dialog</button>
       <button id="openNonModal" data-testid="open-nonmodal" type="button">Open non-modal dialog</button>
@@ -41,7 +41,41 @@
 
   <script>
     (() => { const dlg = document.getElementById("dlg"), res = document.querySelector("[data-testid='dialog-result']"), openModal = document.getElementById("openModal"), openNonModal = document.getElementById("openNonModal"), btnOk = document.getElementById("btnOk"); let lastOpener = null; const hasDialog = !!(window.HTMLDialogElement && dlg.showModal); const sync = () => dlg.dataset.open = String(!!dlg.open); const setMode = (m) => dlg.dataset.mode = m; const open = (mode) => { lastOpener = (mode === "modal" ? openModal : openNonModal); setMode(mode); if (hasDialog) { mode === "modal" ? dlg.showModal() : dlg.show(); } else { dlg.setAttribute("open", ""); dlg.open = true; dlg.setAttribute("aria-hidden", "false"); } sync(); btnOk.focus(); }; const closeFallback = (val) => { dlg.returnValue = val || dlg.returnValue || ""; dlg.removeAttribute("open"); dlg.open = false; dlg.setAttribute("aria-hidden", "true"); dlg.dispatchEvent(new Event("close")); }; openModal.addEventListener("click", () => open("modal")); openNonModal.addEventListener("click", () => open("nonmodal")); dlg.addEventListener("close", () => { sync(); res.textContent = `result: ${dlg.returnValue || "(none)"}`; if (lastOpener) lastOpener.focus(); setMode("none"); }); if (!hasDialog) { dlg.addEventListener("click", (e) => { const r = dlg.getBoundingClientRect(); const inBox = e.clientX >= r.left && e.clientX <= r.right && e.clientY >= r.top && e.clientY <= r.bottom; if (!inBox) closeFallback("cancel"); }); dlg.addEventListener("cancel", (e) => { e.preventDefault(); closeFallback("cancel"); }); dlg.querySelectorAll("button[value]").forEach(b => b.addEventListener("click", () => closeFallback(b.value))); } sync(); })();
+
+    (function () {
+      const skip = document.querySelector('[data-testid="skip-link"]');
+      const main = document.getElementById('main');
+      if (!(skip instanceof HTMLAnchorElement) || !(main instanceof HTMLElement)) return;
+
+      skip.addEventListener('click', () => {
+        main.focus({ preventScroll: true });
+      });
+    })();
+
+    (function () {
+      const dlg = document.querySelector('dialog[data-testid="dialog"]');
+      const result = document.querySelector('[data-testid="dialog-result"]');
+      const openModal = document.querySelector('[data-testid="open-modal"]');
+
+      if (!(dlg instanceof HTMLDialogElement) || !(result instanceof HTMLElement) || !(openModal instanceof HTMLElement)) {
+        return;
+      }
+
+      const setClosed = (value) => {
+        dlg.dataset.open = 'false';
+        dlg.dataset.mode = 'none';
+        result.textContent = `result: ${value}`;
+        openModal.focus();
+      };
+
+      dlg.addEventListener('cancel', (e) => {
+        e.preventDefault();
+        dlg.close('cancel');
+        setClosed('cancel');
+      });
+    })();
   </script>
+
 </body>
 
 </html>

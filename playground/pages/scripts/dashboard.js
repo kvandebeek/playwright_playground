@@ -1,62 +1,124 @@
-(function () {
-  const rand = (min, max) => Math.floor(Math.random() * (max - min + 1)) + min
-  const pick = arr => arr[Math.floor(Math.random() * arr.length)]
+(() => {
+  /**
+   * dashboard.js
+   * - Default: "live" mode mutates metric values periodically
+   * - ?mode=static: do not mutate metric values (keep markup values)
+   * - ?seed=123: deterministic values derived from seed (stable)
+   */
 
-  const tones = ["ok", "warn", "danger"]
-  const statuses = ["Open", "Closed", "Blocked", "Needs triage", "Escalated"]
+  const PARAMS = new URLSearchParams(window.location.search);
+  const MODE = PARAMS.get('mode') === 'static' ? 'static' : 'live';
+  const SEED_PARAM = PARAMS.get('seed');
+  const SEED = SEED_PARAM !== null && SEED_PARAM.trim() !== '' ? SEED_PARAM.trim() : null;
 
-  // Randomize metric values
-  document.querySelectorAll('[data-testid="metric-value"]').forEach(el => {
-    el.textContent = rand(1, 500)
-  })
+  /** @type {const} */
+  const METRIC = {
+    orders: { testId: 'metric-orders', min: 0, max: 2000 },
+    tickets: { testId: 'metric-tickets', min: 0, max: 500 },
+    incidents: { testId: 'metric-incidents', min: 0, max: 50 },
+  };
 
-  // Randomize metric badge tones
-  document.querySelectorAll('[data-testid="metric-card"] .badge').forEach(badge => {
-    badge.setAttribute("data-tone", pick(tones))
-  })
+  /** @type {const} */
+  const DISABLED_RULES = [
+    { cardTestId: 'metric-orders', buttonIndex: 1, disabled: true }, // Export disabled
+    { cardTestId: 'metric-incidents', buttonIndex: 0, disabled: true }, // Acknowledge disabled
+  ];
 
-  // Randomize table rows
-  const tbody = document.querySelector('[data-testid="table"] tbody')
-  if (tbody) {
-    const rows = Array.from(tbody.querySelectorAll('[data-testid="row"]'))
-
-    // Shuffle rows
-    rows.sort(() => Math.random() - 0.5)
-    rows.forEach(row => tbody.appendChild(row))
-
-    // Randomize status badges inside rows
-    rows.forEach(row => {
-      const badges = row.querySelectorAll('.badge')
-      badges.forEach(b => {
-        if (!b.closest("td:first-child")) {
-          b.textContent = pick(statuses)
-          b.setAttribute("data-tone", pick(tones))
-        }
-      })
-    })
+  function clampInt(value, min, max) {
+    const n = Number.parseInt(String(value), 10);
+    if (Number.isNaN(n)) return min;
+    return Math.max(min, Math.min(max, n));
   }
 
-  // Randomly disable some buttons
-  document.querySelectorAll('[data-testid="btn"]').forEach(btn => {
-    if (Math.random() > 0.8) btn.disabled = true
-  })
-
-  // Simulated loading state on page
-  const page = document.querySelector('[data-testid="page-dashboard"]')
-  if (page) {
-    page.classList.add("is-loading")
-    setTimeout(() => page.classList.remove("is-loading"), rand(300, 900))
+  // Simple stable hash -> uint32
+  function hashToUint32(input) {
+    let h = 2166136261;
+    for (let i = 0; i < input.length; i += 1) {
+      h ^= input.charCodeAt(i);
+      h = Math.imul(h, 16777619);
+    }
+    return h >>> 0;
   }
 
-  // Fake pagination
-  const nextBtn = Array.from(document.querySelectorAll('[data-testid="btn"]'))
-    .find(b => b.textContent.trim() === "Next")
-
-  if (nextBtn) {
-    nextBtn.addEventListener("click", () => {
-      const rows = document.querySelectorAll('[data-testid="row"]')
-      rows.forEach(r => r.style.display = Math.random() > 0.5 ? "" : "none")
-    })
+  function seededInt(seedStr, keyStr, min, max) {
+    const range = Math.max(0, max - min);
+    if (range === 0) return min;
+    const u = hashToUint32(`${seedStr}::${keyStr}`);
+    return min + (u % (range + 1));
   }
 
-})()
+  function getCardByTestId(cardTestId) {
+    return document.querySelector(`[data-testid="${cardTestId}"]`);
+  }
+
+  function getMetricValueEl(cardEl) {
+    if (!cardEl) return null;
+    return cardEl.querySelector(`[data-testid="metric-value"]`);
+  }
+
+  function applyDisabledDemoStates() {
+    for (const rule of DISABLED_RULES) {
+      const card = getCardByTestId(rule.cardTestId);
+      if (!card) continue;
+
+      const buttons = card.querySelectorAll(`[data-testid="btn"]`);
+      const btn = buttons.item(rule.buttonIndex);
+      if (!btn) continue;
+
+      btn.disabled = Boolean(rule.disabled);
+    }
+  }
+
+  function setSeededMetrics(seedStr) {
+    const entries = Object.entries(METRIC);
+    for (const [key, cfg] of entries) {
+      const card = getCardByTestId(cfg.testId);
+      const valueEl = getMetricValueEl(card);
+      if (!valueEl) continue;
+
+      const next = seededInt(seedStr, key, cfg.min, cfg.max);
+      valueEl.textContent = String(next);
+    }
+  }
+
+  function tickLiveMetrics() {
+    const entries = Object.entries(METRIC);
+    for (const [_, cfg] of entries) {
+      const card = getCardByTestId(cfg.testId);
+      const valueEl = getMetricValueEl(card);
+      if (!valueEl) continue;
+
+      const current = clampInt(valueEl.textContent, cfg.min, cfg.max);
+      const delta = Math.floor(Math.random() * 25);
+      const next = clampInt(current + delta, cfg.min, cfg.max);
+      valueEl.textContent = String(next);
+    }
+  }
+
+  function init() {
+    applyDisabledDemoStates();
+
+    if (MODE === 'static') {
+      // Keep initial HTML values as-is (deterministic).
+      return;
+    }
+
+    if (SEED !== null) {
+      // Deterministic values for tests/debugging.
+      setSeededMetrics(SEED);
+      return;
+    }
+
+    // Live mode (non-deterministic).
+    tickLiveMetrics();
+    window.setInterval(() => {
+      tickLiveMetrics();
+    }, 1500);
+  }
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', init, { once: true });
+  } else {
+    init();
+  }
+})();

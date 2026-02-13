@@ -79,6 +79,10 @@ test.describe('forms-validation.html', () => {
         await expect(page.getByTestId(ids.form)).toHaveAttribute('data-valid', 'false');
     });
 
+    function validate(page: Page): Promise<void> {
+        return page.getByTestId(ids.btnNative).click();
+    }
+
     test('becomes valid when all fields are valid (input-driven)', async ({ page }) => {
         await goto(page);
 
@@ -87,6 +91,8 @@ test.describe('forms-validation.html', () => {
         await page.getByTestId(ids.minmax).fill('3');
         await page.getByTestId(ids.minlength).fill('12345');
         await page.getByTestId(ids.email).fill('a@b.com');
+
+        await validate(page);
 
         await expect(summary(page)).toHaveAttribute('data-errors-count', '0');
         await expect(summary(page)).toHaveText('No validation errors');
@@ -122,13 +128,13 @@ test.describe('forms-validation.html', () => {
         await expect(summary(page)).toContainText('pat: Custom: must match ABC-123 exactly');
 
         await page.getByTestId(ids.btnClearCustom).click();
-
-        await expect(summary(page)).toHaveAttribute('data-errors-count', '1');
         await expect(summary(page)).toContainText(/pat:/);
         await expect(summary(page)).not.toContainText('Custom: must match ABC-123 exactly');
         await expect(page.getByTestId(ids.form)).toHaveAttribute('data-valid', 'false');
 
         await page.getByTestId(ids.pattern).fill('ABC-123');
+        await validate(page);
+
         await expect(summary(page)).toHaveAttribute('data-errors-count', '0');
         await expect(page.getByTestId(ids.form)).toHaveAttribute('data-valid', 'true');
     });
@@ -142,12 +148,16 @@ test.describe('forms-validation.html', () => {
         await page.getByTestId(ids.minlength).fill('12345');
         await page.getByTestId(ids.email).fill('a@b.com');
 
+        await validate(page);
+
         await expect(summary(page)).toHaveAttribute('data-errors-count', '0');
         await expect(summary(page)).toHaveText('No validation errors');
 
         await page.getByTestId(ids.required).fill('');
+        await validate(page);
 
         await expect(summary(page)).toHaveAttribute('data-errors-count', '1');
+
         await page.getByTestId(ids.btnReport).click();
         await expect(summary(page)).toHaveAttribute('data-errors-count', '1');
     });

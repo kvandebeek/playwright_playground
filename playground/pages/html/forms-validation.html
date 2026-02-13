@@ -20,15 +20,23 @@
 
   <main id="main" data-testid="main">
     <form data-testid="form-validation" id="fv" novalidate data-valid="false">
-      <label for="req">Required</label><input data-testid="v-required" id="req" name="req" required
-        placeholder="required" />
-      <label for="pat">Pattern (ABC-123)</label><input data-testid="v-pattern" id="pat" name="pat"
-        pattern="^[A-Z]{3}-\\d{3}$" placeholder="ABC-123" />
-      <label for="minmax">Min/Max (1..5)</label><input data-testid="v-minmax" id="minmax" name="minmax" type="number"
-        min="1" max="5" />
-      <label for="len">Minlength 5</label><input data-testid="v-minlength" id="len" name="len" minlength="5" />
-      <label for="mail">Email</label><input data-testid="v-email" id="mail" name="mail" type="email"
-        placeholder="a@b.com" />
+      <label for="req">Required</label>
+      <input data-testid="v-required" id="req" name="req" required placeholder="required" />
+
+      <label for="pat">Pattern (ABC-123)</label>
+      <input data-testid="v-pattern" id="pat" name="pat"
+        pattern="^[A-Z]{3}-[0-9]{3}$" placeholder="ABC-123" />
+
+      <label for="minmax">Min/Max (1..5)</label>
+      <input data-testid="v-minmax" id="minmax" name="minmax"
+        type="number" min="1" max="5" />
+
+      <label for="len">Minlength 5</label>
+      <input data-testid="v-minlength" id="len" name="len" minlength="5" />
+
+      <label for="mail">Email</label>
+      <input data-testid="v-email" id="mail" name="mail"
+        type="email" placeholder="a@b.com" />
 
       <div style="grid-column:1/-1;display:flex;gap:10px;flex-wrap:wrap">
         <button data-testid="btn-native" type="submit">Validate (custom)</button>
@@ -37,14 +45,75 @@
         <button id="btnClearCustom" data-testid="btn-clearcustom" type="button">clear custom validity</button>
       </div>
 
-      <pre class="msg" data-testid="validation-summary" id="summary" aria-live="polite" data-errors-count="0"></pre>
-      <small style="grid-column:1/-1">This page uses <code>novalidate</code> and shows errors via JS, but can also
-        trigger native UI with <code>reportValidity()</code>.</small>
+      <pre class="msg"
+           data-testid="validation-summary"
+           id="summary"
+           aria-live="polite"
+           data-errors-count="0"></pre>
+
+      <small style="grid-column:1/-1">
+        This page uses <code>novalidate</code> and shows errors via JS,
+        but can also trigger native UI with <code>reportValidity()</code>.
+      </small>
     </form>
   </main>
 
   <script>
-    (() => { const fv = document.getElementById("fv"), sum = document.getElementById("summary"), pat = document.getElementById("pat"), btnReport = document.getElementById("btnReport"), btnSetCustom = document.getElementById("btnSetCustom"), btnClearCustom = document.getElementById("btnClearCustom"); const fields = () => [...fv.elements].filter(el => (el instanceof HTMLInputElement || el instanceof HTMLSelectElement || el instanceof HTMLTextAreaElement) && el.willValidate); const show = () => { const errs = fields().filter(el => !el.checkValidity()).map(el => `${el.name || el.id}: ${el.validationMessage}`); sum.textContent = errs.length ? errs.join("\n") : "No validation errors"; sum.dataset.errorsCount = String(errs.length); fv.dataset.valid = String(errs.length === 0); }; fv.addEventListener("submit", e => { e.preventDefault(); show(); }); fv.addEventListener("input", show); btnReport.addEventListener("click", () => fv.reportValidity()); btnSetCustom.addEventListener("click", () => { const re = /^[A-Z]{3}-\d{3}$/; pat.setCustomValidity(pat.value && !re.test(pat.value) ? "Custom: must match ABC-123 exactly" : ""); show(); }); btnClearCustom.addEventListener("click", () => { pat.setCustomValidity(""); show(); }); show(); })();
+    (() => {
+      const fv = document.getElementById("fv");
+      const sum = document.getElementById("summary");
+      const pat = document.getElementById("pat");
+      const btnReport = document.getElementById("btnReport");
+      const btnSetCustom = document.getElementById("btnSetCustom");
+      const btnClearCustom = document.getElementById("btnClearCustom");
+
+      const fields = () =>
+        [...fv.elements].filter(el =>
+          (el instanceof HTMLInputElement ||
+           el instanceof HTMLSelectElement ||
+           el instanceof HTMLTextAreaElement) &&
+          el.willValidate
+        );
+
+      const show = () => {
+        const errs = fields()
+          .filter(el => !el.checkValidity())
+          .map(el => `${el.name || el.id}: ${el.validationMessage}`);
+
+        sum.textContent = errs.length
+          ? errs.join("\n")
+          : "No validation errors";
+
+        sum.dataset.errorsCount = String(errs.length);
+        fv.dataset.valid = String(errs.length === 0);
+      };
+
+      fv.addEventListener("submit", e => {
+        e.preventDefault();
+        show();
+      });
+
+      fv.addEventListener("input", show);
+
+      btnReport.addEventListener("click", () => fv.reportValidity());
+
+      btnSetCustom.addEventListener("click", () => {
+        const re = /^[A-Z]{3}-\d{3}$/;
+        pat.setCustomValidity(
+          pat.value && !re.test(pat.value)
+            ? "Custom: must match ABC-123 exactly"
+            : ""
+        );
+        show();
+      });
+
+      btnClearCustom.addEventListener("click", () => {
+        pat.setCustomValidity("");
+        show();
+      });
+
+      show();
+    })();
   </script>
 </body>
 

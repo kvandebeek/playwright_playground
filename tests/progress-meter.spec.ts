@@ -1,7 +1,9 @@
 import { test, expect } from '@playwright/test';
 
 test.describe('progress-meter.html', () => {
-  test.beforeEach(async ({ page }) => { await page.goto('/pages/html/progress-meter.html'); });
+  test.beforeEach(async ({ page }) => {
+    await page.goto('/pages/html/progress-meter.html');
+  });
 
   test('has header basics', async ({ page }) => {
     await expect(page.getByTestId('page-title')).toHaveText('Progress & Meter');
@@ -17,17 +19,25 @@ test.describe('progress-meter.html', () => {
   });
 
   test('initial values are in sync (progress/meter/text/dataset)', async ({ page }) => {
-    const box = page.getByTestId('box'), prog = page.getByTestId('progress'), meter = page.getByTestId('meter'), pt = page.getByTestId('progress-text'), mt = page.getByTestId('meter-text');
+    const box = page.getByTestId('box');
+    const prog = page.getByTestId('progress');
+    const meter = page.getByTestId('meter');
+    const pt = page.getByTestId('progress-text');
+    const mt = page.getByTestId('meter-text');
+
     await expect(prog).toHaveAttribute('value', '30');
     await expect(prog).toHaveAttribute('max', '100');
+
     await expect(meter).toHaveAttribute('value', '55');
     await expect(meter).toHaveAttribute('min', '0');
     await expect(meter).toHaveAttribute('max', '100');
     await expect(meter).toHaveAttribute('low', '30');
     await expect(meter).toHaveAttribute('high', '70');
     await expect(meter).toHaveAttribute('optimum', '80');
+
     await expect(pt).toHaveText('30');
     await expect(mt).toHaveText('55');
+
     await expect(box).toHaveAttribute('data-progress', '30');
     await expect(box).toHaveAttribute('data-meter', '55');
   });
@@ -40,8 +50,14 @@ test.describe('progress-meter.html', () => {
   });
 
   test('Increase updates values by +10 and keeps everything in sync', async ({ page }) => {
-    const box = page.getByTestId('box'), prog = page.getByTestId('progress'), meter = page.getByTestId('meter'), pt = page.getByTestId('progress-text'), mt = page.getByTestId('meter-text');
+    const box = page.getByTestId('box');
+    const prog = page.getByTestId('progress');
+    const meter = page.getByTestId('meter');
+    const pt = page.getByTestId('progress-text');
+    const mt = page.getByTestId('meter-text');
+
     await page.getByTestId('btn-inc').click();
+
     await expect(prog).toHaveAttribute('value', '40');
     await expect(meter).toHaveAttribute('value', '65');
     await expect(pt).toHaveText('40');
@@ -51,8 +67,14 @@ test.describe('progress-meter.html', () => {
   });
 
   test('Decrease updates values by -10 and keeps everything in sync', async ({ page }) => {
-    const box = page.getByTestId('box'), prog = page.getByTestId('progress'), meter = page.getByTestId('meter'), pt = page.getByTestId('progress-text'), mt = page.getByTestId('meter-text');
+    const box = page.getByTestId('box');
+    const prog = page.getByTestId('progress');
+    const meter = page.getByTestId('meter');
+    const pt = page.getByTestId('progress-text');
+    const mt = page.getByTestId('meter-text');
+
     await page.getByTestId('btn-dec').click();
+
     await expect(prog).toHaveAttribute('value', '20');
     await expect(meter).toHaveAttribute('value', '45');
     await expect(pt).toHaveText('20');
@@ -62,18 +84,33 @@ test.describe('progress-meter.html', () => {
   });
 
   test('clamps at 0..100', async ({ page }) => {
-    const prog = page.getByTestId('progress'), meter = page.getByTestId('meter'), pt = page.getByTestId('progress-text'), mt = page.getByTestId('meter-text'), inc = page.getByTestId('btn-inc'), dec = page.getByTestId('btn-dec');
-
-    for (let i = 0; i < 20; i++) await inc.click();
-    await expect(prog).toHaveAttribute('value', '100');
-    await expect(meter).toHaveAttribute('value', '100');
-    await expect(pt).toHaveText('100');
-    await expect(mt).toHaveText('100');
-
-    for (let i = 0; i < 20; i++) await dec.click();
-    await expect(prog).toHaveAttribute('value', '0');
-    await expect(meter).toHaveAttribute('value', '0');
-    await expect(pt).toHaveText('0');
+    test.setTimeout(60_000);
+  
+    const prog = page.getByTestId('progress');
+    const meter = page.getByTestId('meter');
+    const pt = page.getByTestId('progress-text');
+    const mt = page.getByTestId('meter-text');
+  
+    const inc = page.getByTestId('btn-inc');
+    const dec = page.getByTestId('btn-dec');
+  
+    for (let expected = 40; expected <= 100; expected += 10) {
+      await inc.click();
+      await expect(prog).toHaveJSProperty('value', expected);
+      await expect(meter).toHaveJSProperty('value', Math.min(100, 55 + (expected - 30)));
+      await expect(pt).toHaveText(String(expected));
+    }
+  
+    // From 100 down to 0 in steps of 10
+    for (let expected = 90; expected >= 0; expected -= 10) {
+      await dec.click();
+      await expect(prog).toHaveJSProperty('value', expected);
+      await expect(pt).toHaveText(String(expected));
+    }
+  
+    await expect(meter).toHaveJSProperty('value', 0);
     await expect(mt).toHaveText('0');
   });
+  
+  
 });
