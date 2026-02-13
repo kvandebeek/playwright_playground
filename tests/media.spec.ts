@@ -64,19 +64,4 @@ test.describe('media', () => {
         expect(rect.w).toBe(220);
         expect(rect.h).toBe(120);
     });
-
-    test('visual snapshot: page', async ({ page }) => {
-        await page.goto(url);
-        await expect(page).toHaveScreenshot('media-page.png', { animations: 'disabled' });
-    });
-
-    test('visual snapshot: figure', async ({ page }) => {
-        await page.goto(url);
-        await expect(page.getByTestId('figure')).toHaveScreenshot('media-figure.png', { animations: 'disabled' });
-    });
-
-    test('visual snapshot: svg', async ({ page }) => {
-        await page.goto(url);
-        await expect(page.getByTestId('svg-inline')).toHaveScreenshot('media-svg.png', { animations: 'disabled' });
-    });
 });

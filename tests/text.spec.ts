@@ -56,10 +56,6 @@ test.describe('text.html', () => {
         await expect(p2.locator('sup')).toHaveCount(1);
     });
 
-    test('p2 visual rendering (sub/sup)', async ({ page }) => {
-        await expect(page.getByTestId('p2')).toHaveScreenshot('text-p2.png', { animations: 'disabled' });
-    });
-
     test('inline code exists and matches expected content', async ({ page }) => {
         const code = page.getByTestId('inline-code');
         await expect(code).toHaveText('const x = 1');

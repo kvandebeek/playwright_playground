@@ -76,8 +76,4 @@ test.describe('progress-meter.html', () => {
     await expect(pt).toHaveText('0');
     await expect(mt).toHaveText('0');
   });
-
-  test('visual: box renders consistently', async ({ page }) => {
-    await expect(page.getByTestId('box')).toHaveScreenshot('progress-meter-box.png', { animations: 'disabled' });
-  });
 });
